@@ -3,7 +3,7 @@ import Cards from "../Boxes.jsx/Cards";
 import Button from "../NavBar/Button";
 import { Plus } from "lucide-react";
 
-const Offers = ({ tShirts, jeans, addToCart }) => {
+const Offers = ({ tShirts, jeans, onOfferClick }) => {
   // Pick 4 T-shirts and 4 Jeans for the BOGO offers (2 rows of 2 pairs each)
   const offerTShirts = (tShirts || []).slice(0, 4);
   const offerJeans = (jeans || []).slice(0, 4);
@@ -49,11 +49,11 @@ const Offers = ({ tShirts, jeans, addToCart }) => {
               <div className="flex items-center gap-4">
                 {/* Left — T-Shirt */}
                 <div className="flex-1 text-center">
-                  <div className="relative overflow-hidden rounded-xl aspect-square mb-3 group">
+                  <div className="relative overflow-hidden rounded-3xl aspect-square mb-3 group bg-white">
                     <img
                       src={pair.tshirt.image}
                       alt={pair.tshirt.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover p-2 rounded-3xl transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
                   <p className="text-sm font-bold text-gray-700">{pair.tshirt.name}</p>
@@ -69,11 +69,11 @@ const Offers = ({ tShirts, jeans, addToCart }) => {
 
                 {/* Right — Jean */}
                 <div className="flex-1 text-center">
-                  <div className="relative overflow-hidden rounded-xl aspect-square mb-3 group">
+                  <div className="relative overflow-hidden rounded-3xl aspect-square mb-3 group bg-white">
                     <img
                       src={pair.jean.image}
                       alt={pair.jean.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover p-2 rounded-3xl transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
                   <p className="text-sm font-bold text-gray-700">{pair.jean.name}</p>
@@ -93,20 +93,8 @@ const Offers = ({ tShirts, jeans, addToCart }) => {
 
               {/* Add to Cart */}
               <Button
-                onClick={() => {
-                  // Create a single Bundle item for the cart
-                  const bundleItem = {
-                    id: `bundle-${pair.tshirt.id}-${pair.jean.id}`,
-                    name: `BOGO DEAL: ${pair.tshirt.name} + ${pair.jean.name}`,
-                    price: parseFloat(pair.newPrice),
-                    image: pair.tshirt.image,
-                    secondaryImage: pair.jean.image, // Pass the Jean image too
-                    description: "Buy One Get One Free Offer"
-                  };
-
-                  addToCart(bundleItem);
-                }}
-                className="w-full gap-2 py-3 bg-[#ff3b3b] text-white font-bold rounded-xl hover:bg-red-600 shadow-lg shadow-red-500/20"
+                onClick={() => onOfferClick(pair)}
+                className="w-full gap-2 py-3 bg-[#ff3b3b] text-white font-bold rounded-3xl hover:bg-red-600 shadow-lg shadow-red-500/20"
               >
                 <Plus size={18} />
                 Grab This Deal

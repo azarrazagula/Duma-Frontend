@@ -1,9 +1,9 @@
 import React from "react";
-import { Plus } from "lucide-react";
+
 import Cards from "../Boxes.jsx/Cards";
 import Button from "../NavBar/Button";
 
-const ProductPage = ({ products, addToCart, horizontalTextRef, Jeans }) => {
+const ProductPage = ({ products, onProductClick, horizontalTextRef, Jeans }) => {
   return (
     <>
       {/* T-Shirt Section */}
@@ -25,7 +25,7 @@ const ProductPage = ({ products, addToCart, horizontalTextRef, Jeans }) => {
           {products.map((product) => (
             <Cards key={product.id}>
               <div className="p-4 flex flex-col h-full group">
-                <div className="relative overflow-hidden rounded-xl aspect-square mb-4">
+                <div className="relative overflow-hidden rounded-3xl aspect-square mb-4">
                   <img
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     src={product.image}
@@ -38,16 +38,27 @@ const ProductPage = ({ products, addToCart, horizontalTextRef, Jeans }) => {
                     <h3 className="text-xl font-bold text-gray-800">{product.name}</h3>
                     <span className="text-lg font-black text-blue-600">${product.price}</span>
                   </div>
-                  <p className="text-sm text-gray-500 leading-relaxed">
+                  <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
                     {product.description}
                   </p>
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    {product.size && (
+                      <span className="text-xs font-bold px-3 py-1 bg-gray-100 text-gray-700 rounded-full border border-gray-200">
+                        Size: {product.size}
+                      </span>
+                    )}
+                    {product.stock !== undefined && (
+                      <span className={`text-xs font-bold px-3 py-1 rounded-full border ${product.stock > 0 ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                        {product.stock > 0 ? `${product.stock} available stocks` : 'Out of stock'}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <Button
-                  onClick={() => addToCart(product)}
-                  className="mt-6 w-full gap-2 py-3 bg-gray-900 text-white font-bold rounded-xl hover:bg-blue-600 shadow-lg"
+                  onClick={() => onProductClick(product)}
+                  className="mt-6 w-full py-3 bg-gray-900 text-white font-bold rounded-3xl hover:bg-blue-600 shadow-lg"
                 >
-                  <Plus size={18} />
-                  Add to Cart
+                  Buy Now
                 </Button>
               </div>
             </Cards>
@@ -80,29 +91,40 @@ const ProductPage = ({ products, addToCart, horizontalTextRef, Jeans }) => {
           {Jeans.map((Jean) => (
             <Cards key={Jean.id}>
               <div className="p-4 flex flex-col h-full group">
-                <div className="relative overflow-hidden rounded-xl aspect-square mb-4">
+                <div className="relative overflow-hidden rounded-3xl aspect-square mb-4">
                   <img
                     className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-110"
                     src={Jean.image}
                     alt={Jean.name}
                   />
-                  <div className="absolute inset-0 bg-black/5 group-hover:bg-black/0 transition-colors" />
+                  <div className="absolute inset-0 bg-black/15 group-hover:bg-black/0 transition-colors" />
                 </div>
                 <div className="flex-1 space-y-2">
                   <div className="flex justify-between items-start">
                     <h3 className="text-xl font-bold text-gray-800">{Jean.name}</h3>
                     <span className="text-lg font-black text-blue-600">${Jean.price}</span>
                   </div>
-                  <p className="text-sm text-gray-500 leading-relaxed">
+                  <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
                     {Jean.description}
                   </p>
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    {Jean.size && (
+                      <span className="text-xs font-bold px-3 py-1 bg-gray-100 text-gray-700 rounded-full border border-gray-200">
+                        Size: {Jean.size}
+                      </span>
+                    )}
+                    {Jean.stock !== undefined && (
+                      <span className={`text-xs font-bold px-3 py-1 rounded-full border ${Jean.stock > 0 ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                        {Jean.stock > 0 ? `${Jean.stock} available stocks` : 'Out of stock'}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <Button
-                  onClick={() => addToCart(Jean)}
-                  className="mt-6 w-full gap-2 py-3 bg-gray-900 text-white font-bold rounded-xl hover:bg-blue-600 shadow-lg"
+                  onClick={() => onProductClick(Jean)}
+                  className="mt-6 w-full py-3 bg-gray-900 text-white font-bold rounded-3xl hover:bg-blue-600 shadow-lg"
                 >
-                  <Plus size={18} />
-                  Add to Cart
+                  Buy Now
                 </Button>
               </div>
             </Cards>

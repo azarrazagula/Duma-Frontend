@@ -1,120 +1,64 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import NavBar from "./NavBar/NavBar";
 import HomePage from "./HomePage/HomePage";
 import Cart from "./Cart/Cart";
-import Index from "./Assets/Index";
 import ProductPage from "./ProductPage/ProductPage";
 import Offers from "./Offers/Offers.jsx";
 import About from "./About/About.jsx";
 import CustomerCare from "./CustomerCare/CustomerCare.jsx";
+import ProductDetails from "./ProductPage/ProductDetails";
+import OfferDetails from "./Offers/OfferDetails";
+
+const API_BASE_URL = "http://localhost:5001";
+
 function App() {
   const horizontalTextRef = useRef(null);
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const {
-    Red,
-    Blue,
-    Black,
-    Yellow,
-    Pink,
-    Lavander,
-    Grey,
-    White,
-    BlackJean,
-    BlueJean,
-    WhiteJean,
-    DarkJean,
-  } = Index;
-  const T_Shirts = [
-    {
-      id: 101,
-      name: "Crimson Rush",
-      price: 49.99,
-      description: "Deep red premium texture for the bold.",
-      image: Red,
-    },
-    {
-      id: 102,
-      name: "Ocean Breeze",
-      price: 54.99,
-      description: "Calming blue tones for a modern look.",
-      image: Blue,
-    },
-    {
-      id: 103,
-      name: "Midnight Black",
-      price: 59.99,
-      description: "The classic choice for ultimate elegance.",
-      image: Black,
-    },
-    {
-      id: 104,
-      name: "Solar Flare",
-      price: 44.99,
-      description: "Bright yellow energy for your space.",
-      image: Yellow,
-    },
-    {
-      id: 105,
-      name: "Petal Pink",
-      price: 47.99,
-      description: "Soft pink hues for a delicate touch.",
-      image: Pink,
-    },
-    {
-      id: 106,
-      name: "Lavander Mist",
-      price: 52.99,
-      description: "Soothing lavander for a peaceful vibe.",
-      image: Lavander,
-    },
-    {
-      id: 107,
-      name: "Cloud White",
-      price: 42.99,
-      description: "Pure white for a clean, minimal aesthetic.",
-      image: White,
-    },
-    {
-      id: 108,
-      name: "Stone Grey",
-      price: 46.99,
-      description: "Sophisticated grey for any environment.",
-      image: Grey,
-    },
-  ];
-  const Jean = [
-    {
-      id: 201,
-      name: "Crimson Rush",
-      price: 49.99,
-      description: "Styles up your look Made In Thailand.",
-      image: WhiteJean,
-    },
-    {
-      id: 202,
-      name: "Ocean Breeze",
-      price: 54.99,
-      description: "Calming blue tones for a modern look.",
-      image: BlueJean,
-    },
-    {
-      id: 203,
-      name: "Midnight Black",
-      price: 59.99,
-      description: "The classic choice for ultimate elegance.",
-      image: BlackJean,
-    },
-    {
-      id: 204,
-      name: "Solar Flare",
-      price: 44.99,
-      description: "Bright Your Days Styles up your look Made In Turkey.",
-      image: DarkJean,
-    },
-  ];
+  const [products, setProducts] = useState({ tShirts: [], jeans: [] });
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedOffer, setSelectedOffer] = useState(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/user/products`);
+        if (!response.ok) throw new Error("Failed to fetch");
+        const data = await response.json();
+
+        const allProducts = data.map((p) => {
+          let imageUrl = p.image;
+          // Handle valid image paths
+          if (imageUrl) {
+            if (!imageUrl.startsWith("http")) {
+              imageUrl = `${API_BASE_URL}${imageUrl}`;
+            }
+          } else {
+            imageUrl = "https://via.placeholder.com/300?text=No+Image"; // Fallback image
+          }
+
+          return {
+            ...p,
+            id: p._id, // Keep cart functionality working
+            image: imageUrl,
+          };
+        });
+
+        setProducts({
+          tShirts: allProducts.filter((p) => p.category === "T-Shirt"),
+          jeans: allProducts.filter((p) => p.category === "Jeans"),
+        });
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const addToCart = (product) => {
     setCartItems((prev) => {
@@ -157,13 +101,36 @@ function App() {
         cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
         onCartClick={() => setIsCartOpen(true)}
       />
-      <HomePage />
-      <ProductPage
-        products={T_Shirts}
-        addToCart={addToCart}
-        horizontalTextRef={horizontalTextRef}
-        Jeans={Jean}
-      />
+      {selectedProduct ? (
+        <ProductDetails
+          product={selectedProduct}
+          onBack={() => setSelectedProduct(null)}
+          addToCart={addToCart}
+        />
+      ) : selectedOffer ? (
+        <OfferDetails
+          offer={selectedOffer}
+          onBack={() => setSelectedOffer(null)}
+          addToCart={addToCart}
+        />
+      ) : (
+        <>
+          <HomePage />
+          <ProductPage
+            products={products.tShirts}
+            onProductClick={setSelectedProduct}
+            horizontalTextRef={horizontalTextRef}
+            Jeans={products.jeans}
+          />
+          <Offers
+            tShirts={products.tShirts}
+            jeans={products.jeans}
+            onOfferClick={setSelectedOffer}
+          />
+          <About />
+          <CustomerCare />
+        </>
+      )}
       <Cart
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -171,9 +138,6 @@ function App() {
         onUpdateQuantity={updateQuantity}
         onRemoveItem={removeFromCart}
       />
-      <Offers tShirts={T_Shirts} jeans={Jean} addToCart={addToCart} />
-      <About />
-      <CustomerCare />
     </div>
   );
 }
