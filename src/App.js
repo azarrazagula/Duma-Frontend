@@ -2,14 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import NavBar from "./NavBar/NavBar";
-import HomePage from "./HomePage/HomePage";
 import Cart from "./Cart/Cart";
-import ProductPage from "./ProductPage/ProductPage";
-import Offers from "./Offers/Offers.jsx";
-import About from "./About/About.jsx";
-import CustomerCare from "./CustomerCare/CustomerCare.jsx";
-import ProductDetails from "./ProductPage/ProductDetails";
-import OfferDetails from "./Offers/OfferDetails";
+import AppRouter from "./Router/Router";
 
 const API_BASE_URL = "http://localhost:5001";
 
@@ -18,12 +12,11 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [products, setProducts] = useState({ tShirts: [], jeans: [] });
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedOffer, setSelectedOffer] = useState(null);
+  const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
+
     const fetchProducts = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/api/user/products`);
@@ -86,6 +79,37 @@ function App() {
     );
   };
 
+  const handleNavClick = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["home", "products", "offers", "about", "customercare"];
+      const scrollPosition = window.scrollY + 150;
+
+      for (const sectionId of sections) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const top = element.offsetTop;
+          const height = element.offsetHeight;
+
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useGSAP(() => {
     gsap.to(horizontalTextRef.current, {
       xPercent: -50,
@@ -100,37 +124,14 @@ function App() {
       <NavBar
         cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
         onCartClick={() => setIsCartOpen(true)}
+        activeSection={activeSection}
+        onNavClick={handleNavClick}
       />
-      {selectedProduct ? (
-        <ProductDetails
-          product={selectedProduct}
-          onBack={() => setSelectedProduct(null)}
-          addToCart={addToCart}
-        />
-      ) : selectedOffer ? (
-        <OfferDetails
-          offer={selectedOffer}
-          onBack={() => setSelectedOffer(null)}
-          addToCart={addToCart}
-        />
-      ) : (
-        <>
-          <HomePage />
-          <ProductPage
-            products={products.tShirts}
-            onProductClick={setSelectedProduct}
-            horizontalTextRef={horizontalTextRef}
-            Jeans={products.jeans}
-          />
-          <Offers
-            tShirts={products.tShirts}
-            jeans={products.jeans}
-            onOfferClick={setSelectedOffer}
-          />
-          <About />
-          <CustomerCare />
-        </>
-      )}
+      <AppRouter
+        products={products}
+        addToCart={addToCart}
+        horizontalTextRef={horizontalTextRef}
+      />
       <Cart
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}

@@ -1,6 +1,6 @@
 const CustomerCare = () => {
   return (
-    <div>
+    <div id="customercare">
       <h1>Customer Care</h1>
     </div>
   )

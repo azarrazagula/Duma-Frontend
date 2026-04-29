@@ -1,14 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ShoppingCart, Plus } from 'lucide-react';
 import Button from '../NavBar/Button';
 import Cards from '../Boxes.jsx/Cards';
 
-const OfferDetails = ({ offer, onBack, addToCart }) => {
+const OfferDetails = ({ products, addToCart }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [offer, setOffer] = useState(null);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
 
-  if (!offer) return null;
+    if (products && products.tShirts && products.jeans) {
+      const offerTShirts = (products.tShirts || []).slice(0, 4);
+      const offerJeans = (products.jeans || []).slice(0, 4);
+      
+      const index = parseInt(id);
+      const tshirt = offerTShirts[index];
+      const jean = offerJeans[index] || offerJeans[0];
+      
+      if (tshirt && jean) {
+        setOffer({
+          tshirt,
+          jean,
+          oldPrice: (tshirt.price + jean.price).toFixed(2),
+          newPrice: Math.max(tshirt.price, jean.price).toFixed(2),
+        });
+      }
+    }
+  }, [id, products]);
+
+  if (!offer) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+    </div>
+  );
 
   const { tshirt, jean, oldPrice, newPrice } = offer;
 
@@ -27,7 +54,7 @@ const OfferDetails = ({ offer, onBack, addToCart }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-12 md:py-24 animate-fade-in min-h-screen">
       <button 
-        onClick={onBack}
+        onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-gray-500 hover:text-black mb-8 transition-colors group"
       >
         <ArrowLeft size={24} className="group-hover:-translate-x-1 transition-transform" />

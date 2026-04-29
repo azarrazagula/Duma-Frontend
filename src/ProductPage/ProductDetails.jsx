@@ -1,20 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ShoppingCart } from 'lucide-react';
 import Button from '../NavBar/Button';
 import Cards from '../Boxes.jsx/Cards';
 
-const ProductDetails = ({ product, onBack, addToCart }) => {
+const ProductDetails = ({ products, onBack, addToCart }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState(null);
+
   useEffect(() => {
     // Scroll to the top when the product details page opens
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
 
-  if (!product) return null;
+    // Find product from the lists
+    if (products) {
+      const all = [...products.tShirts, ...products.jeans];
+      const found = all.find(p => p._id === id);
+      setProduct(found);
+    }
+  }, [id, products]);
+
+  if (!product) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+  );
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12 md:py-24 animate-fade-in min-h-screen">
       <button
-        onClick={onBack}
+        onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-gray-500 hover:text-black mb-8 transition-colors group"
       >
         <ArrowLeft size={24} className="group-hover:-translate-x-1 transition-transform" />

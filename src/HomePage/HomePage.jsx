@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Cards from "../Boxes.jsx/Cards";
 import Img from "../Assets/one.webp";
 import Img2 from "../Assets/two.webp";
@@ -7,6 +8,7 @@ import Img2 from "../Assets/two.webp";
 const images = [Img, Img2];
 
 const LandingPage = () => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
@@ -54,7 +56,7 @@ const LandingPage = () => {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
+    <section id="home" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
       <div className="text-center">
         <h2 className="text-sm font-semibold text-blue-600 tracking-wide uppercase">
           Introducing Picture
@@ -71,7 +73,10 @@ const LandingPage = () => {
           and beautiful across all your devices.
         </p>
         <div className="mt-10 flex justify-center gap-4">
-          <button className="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 active:scale-95">
+          <button 
+            onClick={() => navigate('/products')}
+            className="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 active:scale-95"
+          >
             Get Started
           </button>
           <button className="px-8 py-4 bg-white text-gray-700 font-bold rounded-2xl border border-gray-200 hover:bg-gray-50 transition-all active:scale-95">

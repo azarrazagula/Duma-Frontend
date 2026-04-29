@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Cards from "../Boxes.jsx/Cards";
 import Button from "../NavBar/Button";
 import { Plus } from "lucide-react";
 
-const Offers = ({ tShirts, jeans, onOfferClick }) => {
+const Offers = ({ tShirts, jeans }) => {
+  const navigate = useNavigate();
   // Pick 4 T-shirts and 4 Jeans for the BOGO offers (2 rows of 2 pairs each)
   const offerTShirts = (tShirts || []).slice(0, 4);
   const offerJeans = (jeans || []).slice(0, 4);
@@ -17,7 +19,7 @@ const Offers = ({ tShirts, jeans, onOfferClick }) => {
   }));
 
   return (
-    <section className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-3xl mx-4 my-8 p-8 md:p-12 overflow-hidden shadow-2xl relative">
+    <section id="offers" className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-3xl mx-4 my-8 p-8 md:p-12 overflow-hidden shadow-2xl relative">
       {/* 50% OFF Banner */}
       <div className="flex flex-col items-center mb-10">
         <div className="relative">
@@ -93,7 +95,7 @@ const Offers = ({ tShirts, jeans, onOfferClick }) => {
 
               {/* Add to Cart */}
               <Button
-                onClick={() => onOfferClick(pair)}
+                onClick={() => navigate(`/offer/${index}`)}
                 className="w-full gap-2 py-3 bg-[#ff3b3b] text-white font-bold rounded-3xl hover:bg-red-600 shadow-lg shadow-red-500/20"
               >
                 <Plus size={18} />

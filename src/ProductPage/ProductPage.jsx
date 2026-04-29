@@ -1,11 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import Cards from "../Boxes.jsx/Cards";
 import Button from "../NavBar/Button";
 
-const ProductPage = ({ products, onProductClick, horizontalTextRef, Jeans }) => {
+const ProductPage = ({ products, horizontalTextRef, Jeans }) => {
+  const navigate = useNavigate();
   return (
-    <>
+    <div id="products">
       {/* T-Shirt Section */}
       <section className="bg-[#272727] rounded-3xl mx-4 my-8 p-8 md:p-12 overflow-hidden shadow-2xl">
         <h1 className="text-center pb-8 text-4xl md:text-6xl font-oi italic text-[#fcff45] tracking-tight">
@@ -55,7 +57,7 @@ const ProductPage = ({ products, onProductClick, horizontalTextRef, Jeans }) => 
                   </div>
                 </div>
                 <Button
-                  onClick={() => onProductClick(product)}
+                  onClick={() => navigate(`/product/${product._id}`)}
                   className="mt-6 w-full py-3 bg-gray-900 text-white font-bold rounded-3xl hover:bg-blue-600 shadow-lg"
                 >
                   Buy Now
@@ -121,7 +123,7 @@ const ProductPage = ({ products, onProductClick, horizontalTextRef, Jeans }) => 
                   </div>
                 </div>
                 <Button
-                  onClick={() => onProductClick(Jean)}
+                  onClick={() => navigate(`/product/${Jean._id}`)}
                   className="mt-6 w-full py-3 bg-gray-900 text-white font-bold rounded-3xl hover:bg-blue-600 shadow-lg"
                 >
                   Buy Now
@@ -131,7 +133,7 @@ const ProductPage = ({ products, onProductClick, horizontalTextRef, Jeans }) => 
           ))}
         </div>
       </section>
-    </>
+    </div>
   );
 }
 

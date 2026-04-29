@@ -1,21 +1,33 @@
 import React, { useState } from 'react';
 import Button from './Button';
 import { Menu, X, Search, ShoppingCart } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const NavBar = ({ cartCount, onCartClick }) => {
+const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLinkClick = (id) => {
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => onNavClick(id), 100);
+    } else {
+      onNavClick(id);
+    }
+  };
+
   const toggleMenu = () => {
     setIsOpen(prev => !prev)
   }
 
 
   const navLinks = [
-    { name: 'Home', href: '#' },
-    { name: 'Products', href: '#' },
-    { name: 'Offers', href: '#' },
-    { name: 'About', href: '#' },
-    { name: 'Customer Care', href: '#' },
-
+    { name: 'Home', id: 'home' },
+    { name: 'Products', id: 'products' },
+    { name: 'Offers', id: 'offers' },
+    { name: 'About', id: 'about' },
+    { name: 'Customer Care', id: 'customercare' },
   ];
 
   return (
@@ -38,12 +50,15 @@ const NavBar = ({ cartCount, onCartClick }) => {
         <nav className="hidden md:block">
           <ul className="flex items-center gap-6 lg:gap-8 px-4 cursor-pointer">
             {navLinks.map((link) => (
-              <li
+              <div
                 key={link.name}
-                className="lg:text-lg md:text-sm font-semibold text-gray-600 hover:text-blue-600 transition-colors"
+                onClick={() => handleLinkClick(link.id)}
+                className={`relative lg:text-lg md:text-sm font-semibold transition-all duration-300 py-2 cursor-pointer
+                  ${activeSection === link.id && location.pathname === '/' ? 'text-blue-600 after:w-full' : 'text-gray-600 hover:text-blue-600 after:w-0'}
+                  after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-blue-600 after:transition-all after:duration-300`}
               >
                 {link.name}
-              </li>
+              </div>
             ))}
           </ul>
         </nav>
@@ -76,12 +91,14 @@ const NavBar = ({ cartCount, onCartClick }) => {
           <nav className="px-6 pb-4">
             <ul className="flex flex-col gap-4">
               {navLinks.map((link) => (
-                <li
+                <div
                   key={link.name}
-                  className="text-xl font-bold text-gray-700 hover:text-blue-600 transition-colors list-none"
+                  onClick={() => { handleLinkClick(link.id); setIsOpen(false); }}
+                  className={`text-xl font-bold transition-colors list-none cursor-pointer border-l-4 pl-4 py-2
+                    ${activeSection === link.id && location.pathname === '/' ? 'text-blue-600 border-blue-600 bg-blue-50' : 'text-gray-700 hover:text-blue-600 border-transparent'}`}
                 >
                   {link.name}
-                </li>
+                </div>
               ))}
             </ul>
           </nav>
