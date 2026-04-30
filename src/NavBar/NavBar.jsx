@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from './Button';
-import { Menu, X, Search, ShoppingCart, User, LogOut } from 'lucide-react';
+import { Menu, X, Search, ShoppingCart, User, LogOut, Package } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
@@ -160,6 +160,18 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
                   </div>
 
                   <div className="space-y-4 mb-6">
+                    <button
+                      onClick={() => { navigate('/orders'); setIsUserMenuOpen(false); }}
+                      className="w-full flex items-center gap-3 p-3 hover:bg-blue-50 rounded-2xl transition-all border border-transparent hover:border-blue-100 group"
+                    >
+                      <div className="p-2 bg-blue-50 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <Package size={18} />
+                      </div>
+                      <div className="flex flex-col items-start">
+                        <span className="text-sm font-bold text-gray-800">My Orders</span>
+                        <span className="text-[10px] text-gray-400 font-medium">View your history</span>
+                      </div>
+                    </button>
                     <div className="flex items-center gap-3">
                       <div className="p-2 bg-gray-50 rounded-lg text-gray-400">
                         <User size={16} />
@@ -250,6 +262,13 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
                   </div>
 
                   <div className="space-y-3 border-t border-gray-200 pt-4">
+                    <button
+                      onClick={() => { navigate('/orders'); setIsOpen(false); }}
+                      className="w-full flex items-center gap-3 py-2 text-gray-700"
+                    >
+                      <Package size={18} className="text-blue-600" />
+                      <span className="font-bold">My Orders</span>
+                    </button>
                     <div className="flex items-center gap-3 text-gray-600">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
                       <span className="text-sm font-medium break-all">{user?.email}</span>

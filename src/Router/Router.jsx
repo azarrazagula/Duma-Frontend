@@ -9,6 +9,8 @@ import ProductDetails from '../ProductPage/ProductDetails';
 import OfferDetails from '../Offers/OfferDetails';
 import Login from '../Auth/Login';
 
+import MyOrders from '../Orders/MyOrders';
+
 const AppRouter = ({ products, addToCart, horizontalTextRef }) => {
   return (
     <Routes>
@@ -38,6 +40,7 @@ const AppRouter = ({ products, addToCart, horizontalTextRef }) => {
         <OfferDetails addToCart={addToCart} products={products} />
       } />
 
+      <Route path="/orders" element={<MyOrders />} />
       <Route path="/Login" element={<Login />} />
     </Routes>
   );
