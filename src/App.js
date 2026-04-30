@@ -4,6 +4,7 @@ import gsap from "gsap";
 import NavBar from "./NavBar/NavBar";
 import Cart from "./Cart/Cart";
 import AppRouter from "./Router/Router";
+import { useLocation } from "react-router-dom";
 
 const API_BASE_URL = "http://localhost:5001";
 
@@ -83,7 +84,7 @@ function App() {
     const element = document.getElementById(id);
     if (element) {
       const y = element.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
 
@@ -119,26 +120,33 @@ function App() {
     });
   });
 
+  const location = useLocation();
+  const isAuthPage = location.pathname === "/Login";
+
   return (
     <div className="min-h-screen bg-[#fafafa] selection:bg-blue-100">
-      <NavBar
-        cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
-        onCartClick={() => setIsCartOpen(true)}
-        activeSection={activeSection}
-        onNavClick={handleNavClick}
-      />
+      {!isAuthPage && (
+        <NavBar
+          cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+          onCartClick={() => setIsCartOpen(true)}
+          activeSection={activeSection}
+          onNavClick={handleNavClick}
+        />
+      )}
       <AppRouter
         products={products}
         addToCart={addToCart}
         horizontalTextRef={horizontalTextRef}
       />
-      <Cart
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
-        onUpdateQuantity={updateQuantity}
-        onRemoveItem={removeFromCart}
-      />
+      {!isAuthPage && (
+        <Cart
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          cartItems={cartItems}
+          onUpdateQuantity={updateQuantity}
+          onRemoveItem={removeFromCart}
+        />
+      )}
     </div>
   );
 }

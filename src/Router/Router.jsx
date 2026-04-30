@@ -7,6 +7,7 @@ import About from '../About/About';
 import CustomerCare from '../CustomerCare/CustomerCare';
 import ProductDetails from '../ProductPage/ProductDetails';
 import OfferDetails from '../Offers/OfferDetails';
+import Login from '../Auth/Login';
 
 const AppRouter = ({ products, addToCart, horizontalTextRef }) => {
   return (
@@ -14,14 +15,14 @@ const AppRouter = ({ products, addToCart, horizontalTextRef }) => {
       <Route path="/" element={
         <>
           <HomePage />
-          <ProductPage 
-            products={products.tShirts} 
-            Jeans={products.jeans} 
+          <ProductPage
+            products={products.tShirts}
+            Jeans={products.jeans}
             horizontalTextRef={horizontalTextRef}
           />
-          <Offers 
-            tShirts={products.tShirts} 
-            jeans={products.jeans} 
+          <Offers
+            tShirts={products.tShirts}
+            jeans={products.jeans}
           />
           <About />
           <CustomerCare />
@@ -36,6 +37,8 @@ const AppRouter = ({ products, addToCart, horizontalTextRef }) => {
       <Route path="/offer/:id" element={
         <OfferDetails addToCart={addToCart} products={products} />
       } />
+
+      <Route path="/Login" element={<Login />} />
     </Routes>
   );
 };

@@ -84,6 +84,12 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
               </span>
             )}
           </Button>
+          <Button
+            onClick={() => navigate('/Login')}
+            className="px-6 py-2 bg-black text-white rounded-full font-bold hover:bg-gray-800 transition-all"
+          >
+            Login
+          </Button>
         </div>
 
         {/* Mobile Menu (Expandable) */}
@@ -111,6 +117,12 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
                 placeholder="Search..."
               />
             </div>
+            <Button
+              onClick={() => { navigate('/Login'); setIsOpen(false); }}
+              className="w-full mt-4 py-3 bg-black text-white rounded-xl font-bold"
+            >
+              Login
+            </Button>
           </div>
         </div>
       </header>
