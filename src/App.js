@@ -6,8 +6,7 @@ import Cart from "./Cart/Cart";
 import AppRouter from "./Router/Router";
 import { useLocation } from "react-router-dom";
 
-const API_BASE_URL = "http://localhost:5001";
-
+const API_BASE_URL = "http://192.168.29.128:5001";
 function App() {
   const horizontalTextRef = useRef(null);
   const [cartItems, setCartItems] = useState([]);
@@ -43,8 +42,8 @@ function App() {
         });
 
         setProducts({
-          tShirts: allProducts.filter((p) => p.category === "T-Shirt"),
-          jeans: allProducts.filter((p) => p.category === "Jeans"),
+          tShirts: allProducts.filter((p) => p.category && p.category.toLowerCase() === "t-shirt"),
+          jeans: allProducts.filter((p) => p.category && p.category.toLowerCase() === "jeans"),
         });
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -112,6 +111,7 @@ function App() {
   }, []);
 
   useGSAP(() => {
+    if (!horizontalTextRef.current) return;
     gsap.to(horizontalTextRef.current, {
       xPercent: -50,
       duration: 15,
@@ -145,6 +145,7 @@ function App() {
           cartItems={cartItems}
           onUpdateQuantity={updateQuantity}
           onRemoveItem={removeFromCart}
+          clearCart={() => setCartItems([])}
         />
       )}
     </div>

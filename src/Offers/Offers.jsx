@@ -19,18 +19,18 @@ const Offers = ({ tShirts, jeans }) => {
   }));
 
   return (
-    <section id="offers" className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-3xl mx-4 my-8 p-8 md:p-12 overflow-hidden shadow-2xl relative">
+    <section id="offers" className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-3xl mx-4 my-8 p-6 sm:p-10 lg:p-12 overflow-hidden shadow-2xl relative">
       {/* 50% OFF Banner */}
       <div className="flex flex-col items-center mb-10">
         <div className="relative">
-          <div className="bg-[#ff3b3b] text-white text-6xl md:text-8xl font-black italic font-poppins px-10 py-4 rounded-2xl shadow-xl shadow-red-500/30 transform -rotate-2">
+          <div className="bg-[#ff3b3b] text-white text-5xl sm:text-7xl lg:text-8xl font-black italic font-poppins px-8 sm:px-10 py-3 sm:py-4 rounded-2xl shadow-xl shadow-red-500/30 transform -rotate-2">
             50% OFF
           </div>
-          <div className="absolute -top-3 -right-3 bg-[#fcff45] text-black text-sm font-bold px-3 py-1 rounded-full shadow-lg animate-bounce">
+          <div className="absolute -top-3 -right-3 bg-[#fcff45] text-black text-[10px] sm:text-sm font-bold px-2 sm:px-3 py-1 rounded-full shadow-lg animate-bounce">
             LIMITED!
           </div>
         </div>
-        <p className="text-white/60 text-lg mt-4 font-poppins tracking-wider">
+        <p className="text-white/60 text-sm sm:text-lg mt-4 font-poppins tracking-wider text-center max-w-md">
           Buy One T-Shirt, Get One Jean — Pay for the higher price only!
         </p>
       </div>
@@ -95,7 +95,14 @@ const Offers = ({ tShirts, jeans }) => {
 
               {/* Add to Cart */}
               <Button
-                onClick={() => navigate(`/offer/${index}`)}
+                onClick={() => {
+                  const user = localStorage.getItem('user');
+                  if (user) {
+                    navigate(`/offer/${index}`);
+                  } else {
+                    navigate('/Login');
+                  }
+                }}
                 className="w-full gap-2 py-3 bg-[#ff3b3b] text-white font-bold rounded-3xl hover:bg-red-600 shadow-lg shadow-red-500/20"
               >
                 <Plus size={18} />

@@ -1,12 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from './Button';
-import { Menu, X, Search, ShoppingCart } from 'lucide-react';
+import { Menu, X, Search, ShoppingCart, User, LogOut } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Initial check
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+
+    // Listen for storage changes
+    const handleStorageChange = () => {
+      const updatedUser = localStorage.getItem('user');
+      setUser(updatedUser ? JSON.parse(updatedUser) : null);
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('userLogin', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('userLogin', handleStorageChange);
+    };
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isUserMenuOpen && !event.target.closest('.user-menu-container')) {
+        setIsUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isUserMenuOpen]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+    setIsUserMenuOpen(false);
+    navigate('/');
+    window.location.reload();
+  };
 
   const handleLinkClick = (id) => {
     if (location.pathname !== '/') {
@@ -39,6 +82,14 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
           </h1>
 
           <div className="flex items-center gap-2">
+            {/* Mobile User Info (Small) */}
+            {user && (
+              <div className="md:hidden flex items-center gap-2 px-3 py-1 bg-blue-50 rounded-full border border-blue-100">
+                <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-[10px] text-white font-bold">
+                  {user?.name?.charAt(0).toUpperCase() || 'U'}
+                </div>
+              </div>
+            )}
             {/* Mobile Menu Button */}
             <Button className="md:hidden p-2 hover:bg-blue-600 focus:outline-none" onClick={toggleMenu} aria-label="toggle menu">
               {isOpen ? <X size={18} /> : <Menu size={18} />}
@@ -48,7 +99,7 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:block">
-          <ul className="flex items-center gap-6 lg:gap-8 px-4 cursor-pointer">
+          <ul className="flex items-center gap-3 lg:gap-8 px-2 lg:px-4 cursor-pointer">
             {navLinks.map((link) => (
               <div
                 key={link.name}
@@ -64,12 +115,12 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
         </nav>
 
         {/* Desktop Search & Cart */}
-        <div className="hidden md:flex items-center gap-4 px-6 lg:px-10">
+        <div className="hidden md:flex items-center gap-3 lg:gap-4 px-4 lg:px-10">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input
               type="search"
-              className="bg-gray-50 border border-gray-200 rounded-full pl-10 pr-4 py-2 w-48 lg:w-64 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+              className="bg-gray-50 border border-gray-200 rounded-full pl-10 pr-4 py-2 w-32 lg:w-64 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
               placeholder="Search..."
             />
           </div>
@@ -84,16 +135,83 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
               </span>
             )}
           </Button>
-          <Button
-            onClick={() => navigate('/Login')}
-            className="px-6 py-2 bg-black text-white rounded-full font-bold hover:bg-gray-800 transition-all"
-          >
-            Login
-          </Button>
+
+          {user ? (
+            <div className="relative user-menu-container">
+              <button
+                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full border border-gray-100 hover:bg-gray-100 transition-all"
+              >
+                <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white font-bold">
+                  {user?.name?.charAt(0).toUpperCase() || 'U'}
+                </div>
+                <span className="text-sm font-bold text-gray-700 hidden lg:block">{user?.name || 'User'}</span>
+              </button>
+
+              {/* Dropdown Menu */}
+              {isUserMenuOpen && (
+                <div className="absolute right-0 mt-3 w-72 bg-white rounded-3xl shadow-2xl border border-gray-100 p-6 animate-fadeIn z-[60]">
+                  <div className="flex flex-col items-center mb-6">
+                    <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-2xl text-white font-bold mb-3 shadow-lg">
+                      {user?.name?.charAt(0).toUpperCase() || 'U'}
+                    </div>
+                    <h4 className="text-lg font-bold text-gray-900">{user?.name}</h4>
+                    <span className="text-xs text-gray-400">Registered Customer</span>
+                  </div>
+
+                  <div className="space-y-4 mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-gray-50 rounded-lg text-gray-400">
+                        <User size={16} />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] uppercase tracking-wider text-gray-400 font-bold">Full Name</span>
+                        <span className="text-sm font-semibold text-gray-700">{user?.name}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-gray-50 rounded-lg text-gray-400">
+                        <Search size={16} /> {/* Using Search as fallback for email/mobile icon if needed, but mail/phone are better */}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] uppercase tracking-wider text-gray-400 font-bold">Email Address</span>
+                        <span className="text-sm font-semibold text-gray-700 break-all">{user?.email}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-gray-50 rounded-lg text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] uppercase tracking-wider text-gray-400 font-bold">Mobile Number</span>
+                        <span className="text-sm font-semibold text-gray-700">{user?.mobile}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleLogout}
+                    className="w-full py-3 bg-red-50 text-red-600 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-red-100 transition-all"
+                  >
+                    <LogOut size={18} />
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Button
+              onClick={() => navigate('/Login')}
+              className="px-6 py-2 bg-black text-white rounded-full font-bold hover:bg-gray-800 transition-all"
+            >
+              Login
+            </Button>
+          )}
         </div>
 
         {/* Mobile Menu (Expandable) */}
-        <div className={`md:hidden  overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 pb-6' : 'max-h-0'}`}>
+        <div className={`md:hidden  overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[500px] pb-6' : 'max-h-0'}`}>
           <nav className="px-6 pb-4">
             <ul className="flex flex-col gap-4">
               {navLinks.map((link) => (
@@ -108,7 +226,7 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
               ))}
             </ul>
           </nav>
-          <div className="px-6">
+          <div className="px-6 space-y-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
               <input
@@ -117,16 +235,51 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
                 placeholder="Search..."
               />
             </div>
-            <Button
-              onClick={() => { navigate('/Login'); setIsOpen(false); }}
-              className="w-full mt-4 py-3 bg-black text-white rounded-xl font-bold"
-            >
-              Login
-            </Button>
+
+            {user ? (
+              <div className="space-y-4">
+                <div className="p-5 bg-gray-50 rounded-2xl border border-gray-100 shadow-sm">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center text-xl text-white font-bold shadow-md">
+                      {user?.name?.charAt(0).toUpperCase() || 'U'}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-lg font-bold text-gray-900">{user?.name}</span>
+                      <span className="text-xs text-gray-400">Premium Member</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 border-t border-gray-200 pt-4">
+                    <div className="flex items-center gap-3 text-gray-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+                      <span className="text-sm font-medium break-all">{user?.email}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-gray-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                      <span className="text-sm font-medium">{user?.mobile}</span>
+                    </div>
+                  </div>
+                </div>
+                <Button
+                  onClick={handleLogout}
+                  className="w-full py-4 bg-red-50 text-red-600 rounded-2xl font-bold flex items-center justify-center gap-2"
+                >
+                  <LogOut size={20} />
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <Button
+                onClick={() => { navigate('/Login'); setIsOpen(false); }}
+                className="w-full py-3 bg-black text-white rounded-xl font-bold"
+              >
+                Login
+              </Button>
+            )}
           </div>
         </div>
       </header>
-    </div >
+    </div>
   );
 };
 
