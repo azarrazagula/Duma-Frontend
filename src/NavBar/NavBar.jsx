@@ -77,9 +77,7 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
     <div className="w-full px-4 py-4 sticky top-0 z-50 ">
       <header className={`bg-white/70 backdrop-blur-xl shadow-lg max-w-6xl mx-auto rounded-3xl md:rounded-full h-auto md:h-20 w-full flex flex-col md:flex-row justify-between items-center transition-all duration-100 border border-white/20 ${isOpen ? 'rounded-3xl' : 'rounded-full'}`} >
         <div className="flex justify-between items-center w-full md:w-auto px-6 md:px-10 h-20">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            PICTURE
-          </h1>
+
 
           <div className="flex items-center gap-2">
             {/* Mobile User Info (Small) */}

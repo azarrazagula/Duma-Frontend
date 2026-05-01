@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import Cards from "../Boxes.jsx/Cards";
 import Img from "../Assets/one.webp";
 import Img2 from "../Assets/two.webp";
+import bgDark from "../Assets/bg-dark-fashion.png";
+
 
 const images = [Img, Img2];
 
 const LandingPage = () => {
-  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
@@ -56,25 +56,25 @@ const LandingPage = () => {
   };
 
   return (
-    <section id="home" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
+    <div className="relative" style={{ backgroundImage: `url(${bgDark})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' }}>
+    <section id="home" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32 relative z-10">
       <div className="text-center">
-        <h2 className="text-sm font-semibold text-blue-600 tracking-wide uppercase">
+        <h2 className="text-sm font-semibold text-blue-400 tracking-wide uppercase">
           Introducing Picture
         </h2>
-        <p className="mt-2 text-5xl md:text-7xl font-extrabold text-gray-900 tracking-tight">
+        <p className="mt-2 text-5xl md:text-7xl font-extrabold text-white tracking-tight">
           Capture every{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
             moment
           </span>{" "}
           with style.
         </p>
-        <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-500">
+        <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-300">
           A premium experience designed for the modern web. Responsive, fast,
           and beautiful across all your devices.
         </p>
         <div className="mt-10 flex justify-center gap-4">
           <button 
-            onClick={() => navigate('/products')}
             className="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 active:scale-95"
           >
             Get Started
@@ -143,6 +143,7 @@ const LandingPage = () => {
         </div>
       </div>
     </section>
+    </div>
   );
 };
 

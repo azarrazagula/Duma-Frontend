@@ -4,7 +4,9 @@ import gsap from "gsap";
 import NavBar from "./NavBar/NavBar";
 import Cart from "./Cart/Cart";
 import AppRouter from "./Router/Router";
+import Footer from "./Footer/Footer";
 import { useLocation } from "react-router-dom";
+
 
 const API_BASE_URL = "http://192.168.29.128:5001";
 function App() {
@@ -148,6 +150,7 @@ function App() {
           clearCart={() => setCartItems([])}
         />
       )}
+      {!isAuthPage && <Footer />}
     </div>
   );
 }
