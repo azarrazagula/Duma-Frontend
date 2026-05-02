@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ShoppingCart, Plus } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Button from '../NavBar/Button';
 import Cards from '../Boxes.jsx/Cards';
 

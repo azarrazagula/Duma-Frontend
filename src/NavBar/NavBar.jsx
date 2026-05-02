@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from './Button';
-import { Menu, X, Search, ShoppingCart, User, LogOut, Package, ChevronRight } from 'lucide-react';
+import { Menu, X, Search, ShoppingCart, LogOut, Package, ChevronRight } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
@@ -10,7 +10,6 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const API_BASE_URL = "http://192.168.29.128:5001";
 
   useEffect(() => {
     const savedUser = localStorage.getItem('user');

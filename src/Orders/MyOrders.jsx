@@ -6,7 +6,7 @@ import Button from '../NavBar/Button';
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [, setError] = useState(null);
   const navigate = useNavigate();
   const API_BASE_URL = "http://192.168.29.128:5001";
 
