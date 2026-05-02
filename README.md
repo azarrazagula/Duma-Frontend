@@ -21,6 +21,7 @@
 ## 🚀 Tech Stack
 
 ### Frontend:
+
 - **React 19** - Component-based architecture.
 - **Tailwind CSS** - Modern utility-first styling.
 - **GSAP** - Professional-grade animations.
@@ -28,6 +29,7 @@
 - **Lucide React** - Clean and consistent iconography.
 
 ### Backend (Duma-Backend):
+
 - **Node.js & Express** - Scalable server-side logic.
 - **MongoDB Atlas** - Robust cloud database for products and orders.
 - **JWT Authentication** - Secure user and admin sessions.
@@ -36,17 +38,20 @@
 ## 🛠️ Installation & Setup
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/azarrazagula/Duma-Frontend.git
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 3. **Set up Environment Variables:**
    Create a `.env` file in the root directory and add:
+
    ```env
    REACT_APP_API_URL=http://your-backend-api.com
    ```
@@ -58,7 +63,7 @@
 
 ## 📸 Screenshots
 
-*(Add your premium screenshots here to wow your recruiters/visitors!)*
+_(Add your premium screenshots here to wow your recruiters/visitors!)_
 
 ## 📄 License
 
@@ -66,4 +71,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-Built with ❤️ by [Ansar Ibrahim](https://github.com/azarrazagula)
+Built with ❤️ by [Azar Ibrahim](https://github.com/azarrazagula)

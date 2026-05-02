@@ -5,19 +5,19 @@ const CustomerCare = () => {
   const contactInfo = [
     {
       icon: <Mail className="w-6 h-6 text-blue-600" />,
-      label: "Email Us",
-      value: "support@duma.com",
+      label: "Demo Email Us",
+      value: "azaribrahim.com",
       description: "Response within 24 hours",
     },
     {
       icon: <Phone className="w-6 h-6 text-blue-600" />,
-      label: "Call Us",
-      value: "+1 (234) 567-890",
+      label: "Demo Call Us",
+      value: "+911234567890",
       description: "Mon - Fri, 9am - 6pm EST",
     },
     {
       icon: <MapPin className="w-6 h-6 text-blue-600" />,
-      label: "Visit Us",
+      label: "Demo Visit Us",
       value: "123 Fashion Ave, NY",
       description: "Our flagship store",
     },

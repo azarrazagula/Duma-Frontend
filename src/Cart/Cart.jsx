@@ -13,9 +13,10 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
     postalCode: '',
     country: 'India'
   });
-  
+
   const navigate = useNavigate();
-  const API_BASE_URL = "http://192.168.29.128:5001";
+  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5001";
+  const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
 
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
@@ -35,12 +36,30 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
     setShowAddressForm(true);
   };
 
+  const [paymentMethod, setPaymentMethod] = useState('Online');
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const confirmOrder = async (e) => {
     e.preventDefault();
-    
+
     // Validation
     if (!shippingAddress.address || !shippingAddress.city || !shippingAddress.postalCode) {
       alert('Please fill all address fields');
+      return;
+    }
+
+    const res = await loadRazorpayScript();
+    if (!res) {
+      alert('Razorpay SDK failed to load. Are you online?');
       return;
     }
 
@@ -48,21 +67,22 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
     const user = JSON.parse(savedUser);
     setLoading(true);
 
-    const orderData = {
-      orderItems: cartItems.map(item => ({
-        name: item.name,
-        qty: item.quantity,
-        image: item.image.replace(API_BASE_URL, ''),
-        price: item.price,
-        product: item.id
-      })),
-      shippingAddress,
-      paymentMethod: "Cash on Delivery",
-      totalPrice: total
-    };
-
     try {
-      const response = await fetch(`${API_BASE_URL}/api/user/orders`, {
+      // 1. Create the order in backend
+      const orderData = {
+        orderItems: cartItems.map(item => ({
+          name: item.name,
+          qty: item.quantity,
+          image: item.image.replace(API_BASE_URL, ''),
+          price: item.price,
+          product: item.id
+        })),
+        shippingAddress,
+        paymentMethod: paymentMethod === 'Online' ? 'Razorpay' : 'Cash on Delivery',
+        totalPrice: total
+      };
+
+      const orderResponse = await fetch(`${API_BASE_URL}/api/user/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,23 +91,88 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
         body: JSON.stringify(orderData)
       });
 
-      const data = await response.json();
+      const order = await orderResponse.json();
+      if (!orderResponse.ok) throw new Error(order.message || 'Failed to create order');
 
-      if (response.ok) {
+      if (paymentMethod === 'Cash on Delivery') {
         setOrderSuccess(true);
         if (clearCart) clearCart();
-        // Reset states after a delay
-        setTimeout(() => {
-          // onClose(); // We'll let the user click the button
-        }, 3000);
-      } else {
-        alert(data.message || 'Failed to place order');
+        return;
       }
+
+      // 2. Step 2: Create Razorpay Order & Open Checkout Window
+      const paymentResponse = await fetch(`${API_BASE_URL}/api/user/payment/create-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`
+        },
+        body: JSON.stringify({ amount: total })
+      });
+
+      const razorpayOrder = await paymentResponse.json();
+      if (!paymentResponse.ok) throw new Error(razorpayOrder.message || 'Failed to initiate payment');
+
+      const options = {
+        key: RAZORPAY_KEY_ID,
+        amount: razorpayOrder.amount,
+        currency: razorpayOrder.currency,
+        name: "Duma Fashion",
+        description: "Order Payment",
+        order_id: razorpayOrder.id,
+        handler: async (response) => {
+          try {
+            setLoading(true);
+            // Step 5: Automatic Verification
+            const verifyResponse = await fetch(`${API_BASE_URL}/api/user/payment/verify`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
+              },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                orderId: order._id
+              })
+            });
+
+            const verifyData = await verifyResponse.json();
+            
+            if (verifyResponse.ok) {
+              console.log("Payment Verified Automatically!");
+              setOrderSuccess(true);
+              if (clearCart) clearCart();
+            } else {
+              alert(verifyData.message || 'Payment verification failed');
+            }
+          } catch (err) {
+            console.error('Verification error:', err);
+            alert('Verification failed. Please contact support.');
+          } finally {
+            setLoading(false);
+          }
+        },
+        prefill: {
+          name: user.name,
+          email: user.email,
+          contact: user.mobile
+        },
+        theme: { color: "#2563eb" },
+        modal: {
+          ondismiss: () => { setLoading(false); }
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+
     } catch (err) {
       console.error('Checkout error:', err);
-      alert('Something went wrong. Please try again.');
+      alert(err.message || 'Something went wrong. Please try again.');
     } finally {
-      setLoading(false);
+      if (paymentMethod === 'Cash on Delivery') setLoading(false);
     }
   };
 
@@ -102,15 +187,15 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
   return (
     <>
       {/* Backdrop */}
-      <div 
+      <div
         className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={handleClose}
       />
-      
+
       {/* Sidebar */}
       <div className={`fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl z-[70] transition-transform duration-500 ease-in-out transform ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex flex-col h-full">
-          
+
           {orderSuccess ? (
             /* Success State Animation */
             <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-6 animate-fadeIn">
@@ -120,7 +205,7 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
                 </div>
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full animate-ping opacity-20" />
               </div>
-              
+
               <div className="space-y-2">
                 <h2 className="text-3xl font-black text-gray-900">Order Placed!</h2>
                 <p className="text-gray-500 font-medium">Thank you for your purchase. Your order is being processed and will be with you soon.</p>
@@ -133,7 +218,7 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Payment</span>
-                  <span className="text-gray-800 font-bold">Cash on Delivery</span>
+                  <span className="text-gray-800 font-bold">{paymentMethod === 'Online' ? 'Online Payment' : 'Cash on Delivery'}</span>
                 </div>
                 <div className="pt-3 border-t border-gray-200 flex justify-between">
                   <span className="font-bold text-gray-800">Total Paid</span>
@@ -141,7 +226,7 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
                 </div>
               </div>
 
-              <Button 
+              <Button
                 onClick={handleClose}
                 className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl hover:bg-black transition-all shadow-xl"
               >
@@ -168,7 +253,7 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
                     </>
                   )}
                 </div>
-                <Button 
+                <Button
                   onClick={handleClose}
                   className="p-2 hover:bg-gray-100 text-gray-500"
                 >
@@ -190,7 +275,7 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
                           <h3 className="text-xl font-semibold text-gray-800">Your cart is empty</h3>
                           <p className="text-gray-500 mt-2">Looks like you haven't added anything yet.</p>
                         </div>
-                        <Button 
+                        <Button
                           onClick={onClose}
                           className="mt-4 px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-200"
                         >
@@ -212,21 +297,21 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
                               <p className="text-sm text-gray-500 line-clamp-1">{item.description}</p>
                               <div className="flex items-center justify-between mt-2">
                                 <div className="flex items-center border border-gray-200 rounded-lg p-1">
-                                  <Button 
+                                  <Button
                                     onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
                                     className="p-1 hover:bg-gray-100 text-gray-600"
                                   >
                                     <Minus size={16} />
                                   </Button>
                                   <span className="w-8 text-center font-semibold">{item.quantity}</span>
-                                  <Button 
+                                  <Button
                                     onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
                                     className="p-1 hover:bg-gray-100 text-gray-600"
                                   >
                                     <Plus size={16} />
                                   </Button>
                                 </div>
-                                <Button 
+                                <Button
                                   onClick={() => onRemoveItem(item.id)}
                                   className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50"
                                 >
@@ -307,10 +392,30 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
                       </div>
 
                       <div className="pt-4">
+                        <label className="text-sm font-bold text-gray-700 mb-2 block">Payment Method</label>
+                        <div className="grid grid-cols-2 gap-3">
+                          <button
+                            type="button"
+                            onClick={() => setPaymentMethod('Online')}
+                            className={`py-3 px-4 rounded-xl border font-bold text-sm transition-all ${paymentMethod === 'Online' ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100' : 'bg-white border-gray-200 text-gray-600 hover:border-blue-400'}`}
+                          >
+                            Online Payment
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setPaymentMethod('COD')}
+                            className={`py-3 px-4 rounded-xl border font-bold text-sm transition-all ${paymentMethod === 'COD' ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100' : 'bg-white border-gray-200 text-gray-600 hover:border-blue-400'}`}
+                          >
+                            Cash on Delivery
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="pt-4">
                         <div className="p-4 bg-gray-50 rounded-2xl border border-gray-200 space-y-2">
                           <div className="flex justify-between text-sm text-gray-500">
-                            <span>Payment Method:</span>
-                            <span className="font-bold text-gray-800">Cash on Delivery</span>
+                            <span>Selected Method:</span>
+                            <span className="font-bold text-gray-800">{paymentMethod === 'Online' ? 'Online Payment (Razorpay)' : 'Cash on Delivery'}</span>
                           </div>
                           <div className="flex justify-between text-lg font-bold text-gray-800 pt-2 border-t border-gray-200">
                             <span>Grand Total:</span>
@@ -342,7 +447,7 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
                           <span>${total.toFixed(2)}</span>
                         </div>
                       </div>
-                      <Button 
+                      <Button
                         onClick={handleCheckoutClick}
                         className="w-full py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-xl shadow-blue-200 flex items-center justify-center gap-2"
                       >
@@ -350,7 +455,7 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
                       </Button>
                     </div>
                   ) : (
-                    <Button 
+                    <Button
                       form="addressForm"
                       type="submit"
                       disabled={loading}

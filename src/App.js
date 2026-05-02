@@ -7,7 +7,6 @@ import AppRouter from "./Router/Router";
 import Footer from "./Footer/Footer";
 import { useLocation } from "react-router-dom";
 
-
 const API_BASE_URL = "http://192.168.29.128:5001";
 function App() {
   const horizontalTextRef = useRef(null);
@@ -44,8 +43,12 @@ function App() {
         });
 
         setProducts({
-          tShirts: allProducts.filter((p) => p.category && p.category.toLowerCase() === "t-shirt"),
-          jeans: allProducts.filter((p) => p.category && p.category.toLowerCase() === "jeans"),
+          tShirts: allProducts.filter(
+            (p) => p.category && p.category.toLowerCase() === "t-shirt",
+          ),
+          jeans: allProducts.filter(
+            (p) => p.category && p.category.toLowerCase() === "jeans",
+          ),
         });
       } catch (err) {
         console.error("Error fetching products:", err);

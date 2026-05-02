@@ -28,10 +28,10 @@ const ProductDetails = ({ products, onBack, addToCart }) => {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12 md:py-24 animate-fade-in min-h-screen">
+    <div className="max-w-7xl mx-auto px-4 py-10 md:py-18 animate-fade-in min-h-screen">
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-gray-500 hover:text-black mb-8 transition-colors group"
+        className="flex items-center gap-2 text-gray-500 hover:text-black mb-6 transition-colors group"
       >
         <ArrowLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
         <span className="font-bold text-lg">Back to Collection</span>
