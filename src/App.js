@@ -6,8 +6,8 @@ import Cart from "./Cart/Cart";
 import AppRouter from "./Router/Router";
 import Footer from "./Footer/Footer";
 import { useLocation } from "react-router-dom";
+import API_BASE_URL from "./config";
 
-const API_BASE_URL = "http://192.168.29.128:5001";
 function App() {
   const horizontalTextRef = useRef(null);
   const [cartItems, setCartItems] = useState([]);
@@ -26,21 +26,28 @@ function App() {
 
         const allProducts = data.map((p) => {
           let imageUrl = p.image;
-          // Handle valid image paths
+          
           if (imageUrl) {
+            // If image is a local IP path, strip it to get just the /uploads part
+            if (imageUrl.includes('192.168.29.128')) {
+              imageUrl = imageUrl.split(':5001')[1] || imageUrl;
+            }
+            
+            // Prefix with current API_BASE_URL if it's a relative path
             if (!imageUrl.startsWith("http")) {
               imageUrl = `${API_BASE_URL}${imageUrl}`;
             }
           } else {
-            imageUrl = "https://via.placeholder.com/300?text=No+Image"; // Fallback image
+            imageUrl = "https://via.placeholder.com/300?text=No+Image";
           }
 
           return {
             ...p,
-            id: p._id, // Keep cart functionality working
+            id: p._id,
             image: imageUrl,
           };
         });
+
 
         setProducts({
           tShirts: allProducts.filter(

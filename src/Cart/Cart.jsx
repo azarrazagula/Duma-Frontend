@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Trash2, Plus, Minus, ShoppingBag, Loader2, MapPin, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import Button from '../NavBar/Button';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from '../config';
 
 const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clearCart }) => {
   const [loading, setLoading] = useState(false);
@@ -15,8 +16,8 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
   });
 
   const navigate = useNavigate();
-  const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5001";
   const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
+
 
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 

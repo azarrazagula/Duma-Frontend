@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import loginBg from '../Assets/login_bg.png';
 import registerBg from '../Assets/register_bg.png';
 import { Eye, EyeOff } from 'lucide-react';
+import API_BASE_URL from '../config';
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -21,10 +22,6 @@ const Auth = () => {
     const formBoxRef = useRef(null);
     const imageBoxRef = useRef(null);
     const navigate = useNavigate();
-
-    const API_BASE_URL = "http://192.168.29.128:5001";
-    ;
-
     useEffect(() => {
         // Initial setup
         const isMobile = window.innerWidth < 768;

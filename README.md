@@ -1,5 +1,7 @@
 # DUMA - Premium Streetwear E-commerce Platform 🚀
 
+**Live Demo:** [https://dumaapp.netlify.app](https://dumaapp.netlify.app)
+
 ![DUMA Banner](https://img.shields.io/badge/DUMA-Premium%20Streetwear-black?style=for-the-badge&logo=react)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 ![React](https://img.shields.io/badge/React-19.x-61DAFB?style=for-the-badge&logo=react)

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Package, Truck, CheckCircle2, Clock, ChevronRight, ShoppingBag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../NavBar/Button';
+import API_BASE_URL from '../config';
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [, setError] = useState(null);
   const navigate = useNavigate();
-  const API_BASE_URL = "http://192.168.29.128:5001";
+
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -141,10 +142,15 @@ const MyOrders = () => {
                       <div key={idx} className="flex items-center gap-4 py-3 border-b border-gray-50 last:border-0">
                         <div className="w-16 h-16 bg-gray-50 rounded-xl overflow-hidden flex-shrink-0 border border-gray-100">
                           <img 
-                            src={item.image.startsWith('http') ? item.image : `${API_BASE_URL}${item.image}`} 
+                            src={
+                              item.image.includes('192.168.29.128') 
+                                ? `${API_BASE_URL}${item.image.split(':5001')[1]}` 
+                                : (item.image.startsWith('http') ? item.image : `${API_BASE_URL}${item.image}`)
+                            } 
                             alt={item.name} 
                             className="w-full h-full object-cover"
                           />
+
                         </div>
                         <div className="flex-1 min-w-0">
                           <h4 className="font-bold text-gray-800 truncate">{item.name}</h4>
