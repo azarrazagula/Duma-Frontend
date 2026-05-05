@@ -28,9 +28,10 @@ function App() {
           let imageUrl = p.image;
           
           if (imageUrl) {
-            // If image is a local IP path, strip it to get just the /uploads part
-            if (imageUrl.includes('192.168.29.128')) {
-              imageUrl = imageUrl.split(':5001')[1] || imageUrl;
+            // If image is a local path (localhost or IP), strip it to get just the /uploads part
+            if (imageUrl.includes('localhost') || imageUrl.includes('192.168')) {
+              const parts = imageUrl.split(':5001');
+              imageUrl = parts[1] || imageUrl;
             }
             
             // Prefix with current API_BASE_URL if it's a relative path

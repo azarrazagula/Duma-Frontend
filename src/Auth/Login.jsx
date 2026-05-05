@@ -147,6 +147,7 @@ const Auth = () => {
                                         required
                                         className="w-full px-4 py-2.5 sm:py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-0 transition-all outline-none bg-gray-50 text-xs sm:text-sm lg:text-base"
                                         placeholder="Enter your email"
+                                        autoComplete="email"
                                     />
                                 </div>
                                 <div className="relative">
@@ -160,6 +161,7 @@ const Auth = () => {
                                             required
                                             className="w-full px-4 py-2.5 sm:py-3 rounded-xl border border-gray-200 focus:border-black focus:ring-0 transition-all outline-none bg-gray-50 pr-12 text-xs sm:text-sm lg:text-base"
                                             placeholder="••••••••"
+                                            autoComplete="current-password"
                                         />
                                         <button
                                             type="button"
@@ -203,6 +205,7 @@ const Auth = () => {
                                         required
                                         className="w-full px-4 py-2 md:py-2.5 rounded-xl border border-gray-200 focus:border-black focus:ring-0 transition-all outline-none bg-gray-50 text-xs sm:text-sm"
                                         placeholder="Azar"
+                                        autoComplete="name"
                                     />
                                 </div>
                                 <div>
@@ -215,6 +218,7 @@ const Auth = () => {
                                         required
                                         className="w-full px-4 py-2 md:py-2.5 rounded-xl border border-gray-200 focus:border-black focus:ring-0 transition-all outline-none bg-gray-50 text-xs sm:text-sm"
                                         placeholder="azar@gmail.com"
+                                        autoComplete="email"
                                     />
                                 </div>
                                 <div>
@@ -227,6 +231,7 @@ const Auth = () => {
                                         required
                                         className="w-full px-4 py-2 md:py-2.5 rounded-xl border border-gray-200 focus:border-black focus:ring-0 transition-all outline-none bg-gray-50 text-xs sm:text-sm"
                                         placeholder="9944171692"
+                                        autoComplete="tel"
                                     />
                                 </div>
                                 <div className="relative">
@@ -240,6 +245,7 @@ const Auth = () => {
                                             required
                                             className="w-full px-4 py-2 md:py-2.5 rounded-xl border border-gray-200 focus:border-black focus:ring-0 transition-all outline-none bg-gray-50 pr-12 text-xs sm:text-sm"
                                             placeholder="••••••••"
+                                            autoComplete="new-password"
                                         />
                                         <button
                                             type="button"
