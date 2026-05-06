@@ -256,9 +256,10 @@ const Cart = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, clea
                 </div>
                 <Button
                   onClick={handleClose}
+                  aria-label="Close cart"
                   className="p-2 hover:bg-gray-100 text-gray-500"
                 >
-                  <X size={24} />
+                  <X size={24} aria-hidden="true" />
                 </Button>
               </div>
 

@@ -10,9 +10,9 @@ const ProductPage = ({ products, horizontalTextRef, Jeans }) => {
     <div id="products">
       {/* T-Shirt Section */}
       <section className="bg-[#272727] rounded-3xl mx-4 my-8 p-6 sm:p-10 lg:p-12 overflow-hidden shadow-2xl">
-        <h1 className="text-center pb-8 text-3xl sm:text-5xl lg:text-6xl font-oi italic text-[#fcff45] tracking-tight">
+        <h2 className="text-center pb-8 text-3xl sm:text-5xl lg:text-6xl font-oi italic text-[#fcff45] tracking-tight">
           BUMAS T-SHIRTS
-        </h1>
+        </h2>
 
         <div className="overflow-hidden bg-[#fcff45] rounded-2xl mb-12 shadow-inner">
           <p
@@ -42,7 +42,7 @@ const ProductPage = ({ products, horizontalTextRef, Jeans }) => {
                       <h3 className="text-xl font-bold text-gray-800">{product.name}</h3>
                       <span className="text-lg font-black text-blue-600">${product.price}</span>
                     </div>
-                    <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
+                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">
                       {product.description}
                     </p>
                     <div className="flex flex-wrap items-center gap-2 pt-1">
@@ -76,7 +76,7 @@ const ProductPage = ({ products, horizontalTextRef, Jeans }) => {
             ))
           ) : (
             <div className="col-span-full py-20 text-center">
-              <p className="text-white/40 text-xl font-medium">No T-Shirts available at the moment.</p>
+              <p className="text-white/75 text-xl font-medium">No T-Shirts available at the moment.</p>
             </div>
           )}
         </div>
@@ -156,7 +156,7 @@ const ProductPage = ({ products, horizontalTextRef, Jeans }) => {
             ))
           ) : (
             <div className="col-span-full py-20 text-center">
-              <p className="text-white/40 text-xl font-medium">No Jeans available at the moment.</p>
+              <p className="text-white/75 text-xl font-medium">No Jeans available at the moment.</p>
             </div>
           )}
         </div>

@@ -61,7 +61,7 @@ const About = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 relative z-10">
             Ready to experience the best?
           </h2>
-          <p className="text-blue-100 text-lg max-w-2xl mx-auto mb-10 relative z-10">
+          <p className="text-white text-lg max-w-2xl mx-auto mb-10 relative z-10">
             Join thousands of satisfied customers who have made us their go-to fashion destination.
           </p>
           <button className="px-10 py-4 bg-white text-blue-600 font-bold rounded-2xl hover:bg-gray-100 transition-all active:scale-95 shadow-lg relative z-10">

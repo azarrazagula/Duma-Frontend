@@ -146,11 +146,13 @@ function App() {
           onNavClick={handleNavClick}
         />
       )}
-      <AppRouter
-        products={products}
-        addToCart={addToCart}
-        horizontalTextRef={horizontalTextRef}
-      />
+      <main>
+        <AppRouter
+          products={products}
+          addToCart={addToCart}
+          horizontalTextRef={horizontalTextRef}
+        />
+      </main>
       {!isAuthPage && (
         <Cart
           isOpen={isCartOpen}

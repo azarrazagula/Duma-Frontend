@@ -119,10 +119,10 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
               />
             </div>
 
-            <Button onClick={onCartClick} className="relative p-2.5 hover:bg-gray-100 rounded-full transition-colors">
+            <Button onClick={onCartClick} aria-label={`Open cart, ${cartCount} item${cartCount !== 1 ? 's' : ''}`} className="relative p-2.5 hover:bg-gray-100 rounded-full transition-colors">
               <ShoppingCart size={22} className="text-gray-700" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] font-black rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">
+                <span aria-hidden="true" className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] font-black rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">
                   {cartCount}
                 </span>
               )}
@@ -133,9 +133,11 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
               <div className="hidden lg:block relative user-menu-container">
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  aria-label={`Open account menu for ${user?.name}`}
+                  aria-expanded={isUserMenuOpen}
                   className="w-10 h-10 rounded-full bg-black text-white font-bold flex items-center justify-center border-2 border-white shadow-sm hover:scale-105 transition-all"
                 >
-                  {user?.name?.charAt(0).toUpperCase()}
+                  <span aria-hidden="true">{user?.name?.charAt(0).toUpperCase()}</span>
                 </button>
                 {isUserMenuOpen && (
                   <div className="absolute right-0 mt-4 w-64 bg-white rounded-[2rem] shadow-2xl border border-gray-100 p-6 animate-fadeIn z-[60]">
@@ -169,9 +171,11 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
             {/* Mobile/iPad Hamburger */}
             <button
               onClick={() => setIsOpen(true)}
+              aria-label="Open navigation menu"
+              aria-expanded={isOpen}
               className="lg:hidden p-2.5 text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
             >
-              <Menu size={24} />
+              <Menu size={24} aria-hidden="true" />
             </button>
           </div>
         </header>
@@ -187,8 +191,8 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
       <div className={`fixed top-0 right-0 h-full w-full sm:w-[80%] sm:max-w-sm bg-white z-[101] shadow-2xl transition-transform duration-500 ease-out p-8 flex flex-col overflow-y-auto ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex justify-between items-center mb-10">
           <span className="text-2xl font-black text-gray-900">DUMA<span className="text-blue-600">.</span></span>
-          <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-            <X size={24} />
+          <button onClick={() => setIsOpen(false)} aria-label="Close navigation menu" className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+            <X size={24} aria-hidden="true" />
           </button>
         </div>
 
@@ -216,7 +220,7 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
                 key={link.id}
                 onClick={() => handleLinkClick(link.id)}
                 className={`text-2xl font-black transition-all flex items-center justify-between group
-                  ${activeSection === link.id && location.pathname === '/' ? 'text-blue-600 translate-x-2' : 'text-gray-400 hover:text-gray-900'}`}
+                  ${activeSection === link.id && location.pathname === '/' ? 'text-blue-600 translate-x-2' : 'text-gray-700 hover:text-gray-900'}`}
               >
                 {link.name}
                 <ChevronRight size={24} className={`transition-all ${activeSection === link.id && location.pathname === '/' ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}`} />
@@ -235,7 +239,7 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
               <LogOut size={20} /> Logout
             </button>
           )}
-          <p className="text-center text-xs text-gray-400 mt-4 font-bold uppercase tracking-widest">© 2026 AzarIbrahim</p>
+          <p className="text-center text-xs text-gray-600 mt-4 font-bold uppercase tracking-widest">© 2026 AzarIbrahim</p>
         </div>
       </div>
     </>

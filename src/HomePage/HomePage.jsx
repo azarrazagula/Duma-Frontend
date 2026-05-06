@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Cards from "../Boxes.jsx/Cards";
-import Img from "../Assets/one.webp";
-import Img2 from "../Assets/two.webp";
-import bgDark from "../Assets/bg-dark-fashion.png";
+import Img from "../Assets/one-optimized.webp";
+import Img2 from "../Assets/two-optimized.webp";
 
 
 const images = [Img, Img2];
@@ -56,7 +55,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="relative" style={{ backgroundImage: `url(${bgDark})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' }}>
+    <div className="relative" style={{ backgroundImage: `url(/bg-dark-fashion.webp)`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' }}>
     <section id="home" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32 relative z-10">
       <div className="text-center">
         <h2 className="text-sm font-semibold text-blue-400 tracking-wide uppercase">
@@ -118,17 +117,19 @@ const LandingPage = () => {
           {/* Left Arrow */}
           <button
             onClick={prevSlide}
+            aria-label="Previous slide"
             className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-white/80 backdrop-blur-lg border border-gray-100 rounded-full shadow-xl text-gray-700 hover:bg-white hover:text-blue-600 transition-all active:scale-90 opacity-0 group-hover:opacity-100 z-10"
           >
-            <ChevronLeft size={28} />
+            <ChevronLeft size={28} aria-hidden="true" />
           </button>
 
           {/* Right Arrow */}
           <button
             onClick={nextSlide}
+            aria-label="Next slide"
             className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-white/80 backdrop-blur-lg border border-gray-100 rounded-full shadow-xl text-gray-700 hover:bg-white hover:text-blue-600 transition-all active:scale-90 opacity-0 group-hover:opacity-100 z-10"
           >
-            <ChevronRight size={28} />
+            <ChevronRight size={28} aria-hidden="true" />
           </button>
 
           {/* Indicators */}

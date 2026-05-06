@@ -30,7 +30,7 @@ const Offers = ({ tShirts, jeans }) => {
             LIMITED!
           </div>
         </div>
-        <p className="text-white/60 text-sm sm:text-lg mt-4 font-poppins tracking-wider text-center max-w-md">
+        <p className="text-gray-300 text-sm sm:text-lg mt-4 font-poppins tracking-wider text-center max-w-md">
           Buy One T-Shirt, Get One Jean — Pay for the higher price only!
         </p>
       </div>
@@ -42,7 +42,7 @@ const Offers = ({ tShirts, jeans }) => {
             <div className="p-6">
               {/* BOGO Label */}
               <div className="flex justify-center mb-4">
-                <span className="bg-[#ff3b3b] text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-widest">
+                <span className="bg-red-700 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-widest">
                   Buy 1 Get 1
                 </span>
               </div>
@@ -59,7 +59,7 @@ const Offers = ({ tShirts, jeans }) => {
                     />
                   </div>
                   <p className="text-sm font-bold text-gray-700">{pair.tshirt.name}</p>
-                  <p className="text-xs text-gray-400">T-Shirt</p>
+                  <p className="text-xs text-gray-600">T-Shirt</p>
                 </div>
 
                 {/* Center + */}
@@ -79,16 +79,16 @@ const Offers = ({ tShirts, jeans }) => {
                     />
                   </div>
                   <p className="text-sm font-bold text-gray-700">{pair.jean.name}</p>
-                  <p className="text-xs text-gray-400">Jean</p>
+                  <p className="text-xs text-gray-600">Jean</p>
                 </div>
               </div>
 
               {/* Price */}
               <div className="flex items-center justify-center gap-4 mt-6 mb-4">
-                <span className="text-xl text-gray-400 line-through font-semibold">
+                <span className="text-xl text-gray-500 line-through font-semibold">
                   ${pair.oldPrice}
                 </span>
-                <span className="text-3xl font-black text-[#ff3b3b]">
+                <span className="text-3xl font-black text-red-700">
                   ${pair.newPrice}
                 </span>
               </div>
@@ -103,7 +103,7 @@ const Offers = ({ tShirts, jeans }) => {
                     navigate('/Login');
                   }
                 }}
-                className="w-full gap-2 py-3 bg-[#ff3b3b] text-white font-bold rounded-3xl hover:bg-red-600 shadow-lg shadow-red-500/20"
+                className="w-full gap-2 py-3 bg-red-700 text-white font-bold rounded-3xl hover:bg-red-800 shadow-lg shadow-red-900/20"
               >
                 <Plus size={18} />
                 Grab This Deal
