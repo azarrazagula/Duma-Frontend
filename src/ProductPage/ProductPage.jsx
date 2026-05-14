@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import { ArrowRight } from "lucide-react";
 import Cards from "../Boxes.jsx/Cards";
 import Button from "../NavBar/Button";
 
 const ProductPage = ({ products, horizontalTextRef, Jeans }) => {
   const navigate = useNavigate();
+
   return (
     <div id="products">
       {/* T-Shirt Section */}
@@ -24,12 +25,11 @@ const ProductPage = ({ products, horizontalTextRef, Jeans }) => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {products.length > 0 ? (
+          {products && products.length > 0 ? (
             products.map((product) => (
-              <Cards key={product.id}>
-                {/* ... existing card content ... */}
+              <Cards key={product._id || product.id}>
                 <div className="p-4 flex flex-col h-full group">
-                  <div className="relative overflow-hidden rounded-3xl aspect-square mb-4">
+                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-4">
                     <img
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       src={product.image}
@@ -62,13 +62,14 @@ const ProductPage = ({ products, horizontalTextRef, Jeans }) => {
                     onClick={() => {
                       const user = localStorage.getItem('user');
                       if (user) {
-                        navigate(`/product/${product._id}`);
+                        navigate(`/product/${product._id || product.id}`);
                       } else {
                         navigate('/Login');
                       }
                     }}
-                    className="mt-6 w-full py-3 bg-gray-900 text-white font-bold rounded-3xl hover:bg-blue-600 shadow-lg"
+                    className="mt-6 w-full gap-2 py-3 bg-gray-900 text-white font-bold rounded-xl hover:bg-blue-600 shadow-lg flex items-center justify-center"
                   >
+                    <ArrowRight size={18} />
                     Buy Now
                   </Button>
                 </div>
@@ -104,12 +105,11 @@ const ProductPage = ({ products, horizontalTextRef, Jeans }) => {
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {Jeans.length > 0 ? (
+          {Jeans && Jeans.length > 0 ? (
             Jeans.map((Jean) => (
-              <Cards key={Jean.id}>
-                {/* ... existing card content ... */}
+              <Cards key={Jean._id || Jean.id}>
                 <div className="p-4 flex flex-col h-full group">
-                  <div className="relative overflow-hidden rounded-3xl aspect-square mb-4">
+                  <div className="relative overflow-hidden rounded-2xl aspect-square mb-4">
                     <img
                       className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-110"
                       src={Jean.image}
@@ -142,13 +142,14 @@ const ProductPage = ({ products, horizontalTextRef, Jeans }) => {
                     onClick={() => {
                       const user = localStorage.getItem('user');
                       if (user) {
-                        navigate(`/product/${Jean._id}`);
+                        navigate(`/product/${Jean._id || Jean.id}`);
                       } else {
                         navigate('/Login');
                       }
                     }}
-                    className="mt-6 w-full py-3 bg-gray-900 text-white font-bold rounded-3xl hover:bg-blue-600 shadow-lg"
+                    className="mt-6 w-full gap-2 py-3 bg-gray-900 text-white font-bold rounded-xl hover:bg-blue-600 shadow-lg flex items-center justify-center"
                   >
+                    <ArrowRight size={18} />
                     Buy Now
                   </Button>
                 </div>

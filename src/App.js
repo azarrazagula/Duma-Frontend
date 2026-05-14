@@ -49,7 +49,6 @@ function App() {
           };
         });
 
-
         setProducts({
           tShirts: allProducts.filter(
             (p) => p.category && p.category.toLowerCase() === "t-shirt",
@@ -68,10 +67,10 @@ function App() {
 
   const addToCart = (product) => {
     setCartItems((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const existing = prev.find((item) => item.id === product.id || item._id === product._id);
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id
+          (item.id === product.id || item._id === product._id)
             ? { ...item, quantity: item.quantity + 1 }
             : item,
         );
@@ -82,13 +81,13 @@ function App() {
   };
 
   const removeFromCart = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+    setCartItems((prev) => prev.filter((item) => item.id !== id && item._id !== id));
   };
 
   const updateQuantity = (id, quantity) => {
     if (quantity < 1) return removeFromCart(id);
     setCartItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, quantity } : item)),
+      prev.map((item) => (item.id === id || item._id === id ? { ...item, quantity } : item)),
     );
   };
 
