@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ShoppingCart, Star, ShieldCheck, Truck } from 'lucide-react';
 import Button from '../NavBar/Button';
-import Cards from '../Boxes.jsx/Cards';
 
 const ProductDetails = ({ products, addToCart }) => {
   const { id } = useParams();

@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import loginBg from '../Assets/login_bg.png';
-import registerBg from '../Assets/register_bg.png';
 import { Eye, EyeOff } from 'lucide-react';
 import API_BASE_URL from '../config';
+
+const registerBg = loginBg;
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
