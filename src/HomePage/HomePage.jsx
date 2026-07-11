@@ -1,151 +1,81 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import Cards from "../Boxes.jsx/Cards";
-import Img from "../Assets/one-optimized.webp";
-import Img2 from "../Assets/two-optimized.webp";
+import React from "react";
+import autumnModel from "../Assets/autumn_edit_model.png";
 
-
-const images = [Img, Img2];
-
-const LandingPage = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
-
-  const minSwipeDistance = 50;
-
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  }, []);
-
-  const prevSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  }, []);
-
-  // Auto-slide logic
-  useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [currentIndex, nextSlide]); // Reset interval when index changes manually or nextSlide changes
-
-  // Swipe logic
-  const onTouchStart = (e) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const onTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-
-    if (isLeftSwipe) {
-      nextSlide();
-    } else if (isRightSwipe) {
-      prevSlide();
+const HomePage = () => {
+  // Smooth scroll helper to navigate to products section
+  const scrollToProducts = () => {
+    const element = document.getElementById("products");
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
 
   return (
-    <div className="relative" style={{ backgroundImage: `url(/bg-dark-fashion.webp)`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'center' }}>
-    <section id="home" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32 relative z-10">
-      <div className="text-center">
-        <h2 className="text-sm font-semibold text-blue-400 tracking-wide uppercase">
-          Introducing Picture
-        </h2>
-        <p className="mt-2 text-5xl md:text-7xl font-extrabold text-white tracking-tight">
-          Capture every{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
-            moment
-          </span>{" "}
-          with style.
-        </p>
-        <p className="mt-6 max-w-2xl mx-auto text-xl text-gray-300">
-          A premium experience designed for the modern web. Responsive, fast,
-          and beautiful across all your devices.
-        </p>
-        <div className="mt-10 flex justify-center gap-4">
-          <button 
-            className="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 active:scale-95"
-          >
-            Get Started
-          </button>
-          <button className="px-8 py-4 bg-white text-gray-700 font-bold rounded-2xl border border-gray-200 hover:bg-gray-50 transition-all active:scale-95">
-            Learn More
-          </button>
-        </div>
-      </div>
+    <div className="bg-[#0a0a0a] min-h-[90vh] flex items-center justify-center py-6 md:py-12 px-4 sm:px-6 lg:px-8 font-['Inter']">
+      <div className="max-w-7xl w-full">
+        {/* Symmetrical Hero Banner */}
+        <div className="relative bg-[#0d0d0d] border border-[#1a1a1a] rounded-3xl overflow-hidden min-h-[600px] lg:h-[620px] flex flex-col lg:flex-row items-center justify-between p-6 sm:p-10 lg:p-16 shadow-2xl gap-8 lg:gap-0">
+          
+          {/* Subtle gold/ambient glow behind the banner */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,168,128,0.05)_0%,transparent_70%)] pointer-events-none"></div>
 
-      {/* Sliding Image Carousel */}
-      <div className="mt-20 relative group max-w-5xl mx-auto">
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-400 to-purple-500 blur-3xl opacity-20 -z-10"></div>
+          {/* Left Column: Exclusive Collection & Shop CTA */}
+          <div className="w-full lg:w-1/3 z-20 flex justify-center lg:justify-start order-2 lg:order-none">
+            <div className="border border-[#c5a880] bg-[#0c0c0c]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 max-w-xs md:max-w-sm w-full transition-transform duration-500 hover:scale-[1.02]">
+              <span className="text-[10px] md:text-xs font-serif tracking-[0.25em] text-[#c5a880] uppercase block mb-3">
+                Exclusive Collection:
+              </span>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-white leading-tight mb-6 md:mb-8">
+                Elevate <br />
+                Your Style
+              </h1>
+              <button 
+                onClick={scrollToProducts}
+                className="border border-white/40 text-white font-serif text-[9px] sm:text-[10px] tracking-[0.2em] uppercase px-5 py-2.5 sm:px-6 sm:py-3 hover:bg-[#c5a880] hover:text-black hover:border-[#c5a880] transition-all duration-350 cursor-pointer active:scale-95"
+              >
+                Shop Collection
+              </button>
+            </div>
+          </div>
 
-        <div
-          className="overflow-hidden aspect-video relative"
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
-        >
-          {/* Image Track */}
-          <div
-            className="flex h-full transition-transform duration-700 ease-in-out"
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-          >
-            {images.map((img, index) => (
-              <div key={index} className="w-full h-full flex-shrink-0 p-4">
-                <Cards>
-                  <div className="w-full h-full">
-                    <img
-                      src={img}
-                      alt={`Slide ${index + 1}`}
-                      className="w-full h-full rounded-2xl "
-                    />
-                  </div>
-                </Cards>
+          {/* Center Column: Model Image (Responsive layout) */}
+          <div className="w-full lg:w-1/3 h-[300px] sm:h-[380px] lg:h-full flex items-center justify-center order-1 lg:order-none">
+            <div className="relative w-full h-full flex items-center justify-center">
+              <div className="w-full h-full max-w-[280px] sm:max-w-[340px] lg:max-w-[420px] overflow-hidden rounded-t-full border border-[#1a1a1a] shadow-2xl relative">
+                <img
+                  src={autumnModel}
+                  alt="Duma Premium Luxury Apparel"
+                  className="w-full h-full object-cover object-top scale-100 hover:scale-105 transition-transform duration-700"
+                />
+                {/* Smooth bottom gradient overlay to blend with dark bg */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-transparent to-transparent opacity-85"></div>
               </div>
-            ))}
+            </div>
           </div>
 
-          {/* Left Arrow */}
-          <button
-            onClick={prevSlide}
-            aria-label="Previous slide"
-            className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-white/80 backdrop-blur-lg border border-gray-100 rounded-full shadow-xl text-gray-700 hover:bg-white hover:text-blue-600 transition-all active:scale-90 opacity-0 group-hover:opacity-100 z-10"
-          >
-            <ChevronLeft size={28} aria-hidden="true" />
-          </button>
-
-          {/* Right Arrow */}
-          <button
-            onClick={nextSlide}
-            aria-label="Next slide"
-            className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-white/80 backdrop-blur-lg border border-gray-100 rounded-full shadow-xl text-gray-700 hover:bg-white hover:text-blue-600 transition-all active:scale-90 opacity-0 group-hover:opacity-100 z-10"
-          >
-            <ChevronRight size={28} aria-hidden="true" />
-          </button>
-
-          {/* Indicators */}
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
-            {images.map((_, index) => (
-              <div
-                key={index}
-                className={`h-2 rounded-full transition-all duration-300 ${currentIndex === index ? "w-8 bg-blue-600" : "w-2 bg-gray-300"}`}
-              />
-            ))}
+          {/* Right Column: Duma Brand & Purchase Description */}
+          <div className="w-full lg:w-1/3 z-20 flex justify-center lg:justify-end text-center lg:text-right order-3 lg:order-none">
+            <div className="max-w-xs w-full py-2">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif tracking-[0.2em] text-white uppercase mb-3">
+                Duma
+              </h2>
+              <span className="text-[10px] md:text-xs tracking-[0.3em] text-[#c5a880] uppercase block mb-4">
+                / Premium Luxury /
+              </span>
+              <p className="text-[11px] md:text-xs tracking-[0.2em] text-gray-400 uppercase leading-relaxed font-light mb-6">
+                Shop our premium t-shirts, custom-fit jeans, and curated accessories designed for everyday elegance.
+              </p>
+              <div className="text-[9px] md:text-[10px] tracking-[0.15em] text-[#c5a880] uppercase font-semibold">
+                Free Shipping & Easy Returns
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
-    </section>
     </div>
   );
 };
 
-export default LandingPage;
+export default HomePage;
