@@ -34,7 +34,7 @@ const Offers = ({ tShirts, jeans }) => {
             LIMITED!
           </div>
         </div>
-        <p className="text-gray-100 text-xs sm:text-base lg:text-lg mt-3 sm:mt-5 font-poppins font-semibold tracking-wider text-center max-w-3xl px-4">
+        <p className="text-gray-100 text-xs sm:text-base lg:text-lg mt-4 sm:mt-5 lg:mb-8 font-poppins font-semibold tracking-wider text-center max-w-3xl px-4">
           Buy One T-Shirt, Get One Jean — Pay for the higher price only!
         </p>
       </div>

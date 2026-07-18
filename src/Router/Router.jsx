@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from '../HomePage/HomePage';
 import ProductPage from '../ProductPage/ProductPage';
 import Offers from '../Offers/Offers';
@@ -43,6 +43,16 @@ const AppRouter = ({ products, addToCart, horizontalTextRef }) => {
 
         <Route path="/orders" element={<MyOrders />} />
         <Route path="/Login" element={<Login />} />
+
+        {/* Section Redirect Routes */}
+        <Route path="/offers" element={<Navigate to="/" state={{ scrollToId: 'offers' }} replace />} />
+        <Route path="/products" element={<Navigate to="/" state={{ scrollToId: 'products' }} replace />} />
+        <Route path="/about" element={<Navigate to="/" state={{ scrollToId: 'about' }} replace />} />
+        <Route path="/customercare" element={<Navigate to="/" state={{ scrollToId: 'customercare' }} replace />} />
+        <Route path="/home" element={<Navigate to="/" state={{ scrollToId: 'home' }} replace />} />
+
+        {/* Catch-all Wildcard Route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>
   );
