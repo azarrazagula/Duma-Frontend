@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { X, Send, MessageSquare, Loader2, Sparkles } from "lucide-react";
+import { X, Send, MessageSquare, Sparkles } from "lucide-react";
 
 const ChatModal = ({ isOpen, onClose }) => {
   const [step, setStep] = useState("form"); // 'form' or 'chat'

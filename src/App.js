@@ -152,7 +152,7 @@ function App() {
         }, 50);
       });
     }
-  }, [location.pathname, location.state]);
+  }, [location.pathname, location.state, navigate]);
 
   return (
     <div className="min-h-screen bg-[#fafafa] selection:bg-blue-100">
