@@ -6,11 +6,9 @@ import { Plus } from "lucide-react";
 
 const Offers = ({ tShirts, jeans }) => {
   const navigate = useNavigate();
-  // Pick 4 T-shirts and 4 Jeans for the BOGO offers (2 rows of 2 pairs each)
-  const offerTShirts = (tShirts || []).slice(0, 4);
-  const offerJeans = (jeans || []).slice(0, 4);
+  const offerTShirts = (tShirts || []).slice(0, 2);
+  const offerJeans = (jeans || []).slice(0, 2);
 
-  // Create BOGO pairs: each pair = 1 T-shirt + 1 Jean
   const bogoPairs = offerTShirts.map((tshirt, i) => ({
     tshirt,
     jean: offerJeans[i] || offerJeans[0],
@@ -19,93 +17,92 @@ const Offers = ({ tShirts, jeans }) => {
   }));
 
   return (
-    <section id="offers" className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-3xl mx-4 my-8 p-6 sm:p-10 lg:p-12 overflow-hidden shadow-2xl relative">
+    <section
+      id="offers"
+      className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-2xl sm:rounded-3xl mx-3 sm:mx-4 my-3 sm:my-4
+        p-4 sm:p-8 lg:p-12 overflow-hidden shadow-2xl relative
+        h-[calc(100vh-70px)] md:h-[calc(100vh-86px)]
+        flex flex-col justify-between"
+    >
       {/* 50% OFF Banner */}
-      <div className="flex flex-col items-center mb-10">
+      <div className="flex flex-col items-center">
         <div className="relative">
-          <div className="bg-[#ff3b3b] text-white text-5xl sm:text-7xl lg:text-8xl font-black italic font-poppins px-8 sm:px-10 py-3 sm:py-4 rounded-2xl shadow-xl shadow-red-500/30 transform -rotate-2">
+          <div className="bg-[#ff3b3b] text-white text-3xl sm:text-6xl lg:text-8xl font-black italic font-poppins px-5 sm:px-10 py-2 sm:py-4 rounded-xl sm:rounded-2xl shadow-xl shadow-red-500/30 transform -rotate-2">
             50% OFF
           </div>
-          <div className="absolute -top-3 -right-3 bg-[#fcff45] text-black text-[10px] sm:text-sm font-bold px-2 sm:px-3 py-1 rounded-full shadow-lg animate-bounce">
+          <div className="absolute -top-2 -right-2 bg-[#fcff45] text-black text-[8px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 rounded-full shadow-lg animate-bounce">
             LIMITED!
           </div>
         </div>
-        <p className="text-gray-300 text-sm sm:text-lg mt-4 font-poppins tracking-wider text-center max-w-md">
+        <p className="text-gray-300 text-[10px] sm:text-base mt-2 sm:mt-4 font-poppins tracking-wider text-center max-w-md px-2">
           Buy One T-Shirt, Get One Jean — Pay for the higher price only!
         </p>
       </div>
 
-      {/* BOGO Offer Cards — 2 rows */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* BOGO Offer Cards — always 2 columns */}
+      <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:gap-8 flex-1 my-3 sm:my-0">
         {bogoPairs.map((pair, index) => (
           <Cards key={index}>
-            <div className="p-6">
+            <div className="p-3 sm:p-5 h-full flex flex-col justify-between">
               {/* BOGO Label */}
-              <div className="flex justify-center mb-4">
-                <span className="bg-red-700 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-widest">
+              <div className="flex justify-center mb-2 sm:mb-3">
+                <span className="bg-red-700 text-white text-[9px] sm:text-xs font-bold px-3 py-0.5 sm:py-1 rounded-full uppercase tracking-widest">
                   Buy 1 Get 1
                 </span>
               </div>
 
-              {/* Product Pair: T-shirt + Jean */}
-              <div className="flex items-center gap-4">
-                {/* Left — T-Shirt */}
-                <div className="flex-1 text-center">
-                  <div className="relative overflow-hidden rounded-3xl aspect-square mb-3 group bg-white">
+              {/* Product Pair */}
+              <div className="flex items-center gap-2 sm:gap-4 flex-1">
+                {/* T-Shirt */}
+                <div className="flex-1 text-center min-w-0">
+                  <div className="relative overflow-hidden rounded-xl sm:rounded-2xl aspect-square mb-1 sm:mb-2 group bg-white">
                     <img
                       src={pair.tshirt.image}
                       alt={pair.tshirt.name}
-                      className="w-full h-full object-cover p-2 rounded-3xl transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover p-1 sm:p-2 transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
-                  <p className="text-sm font-bold text-gray-700">{pair.tshirt.name}</p>
-                  <p className="text-xs text-gray-600">T-Shirt</p>
+                  <p className="text-[10px] sm:text-sm font-bold text-gray-700 truncate">{pair.tshirt.name}</p>
+                  <p className="text-[9px] sm:text-xs text-gray-500">T-Shirt</p>
                 </div>
 
-                {/* Center + */}
-                <div className="flex flex-col items-center flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-[#fcff45] flex items-center justify-center shadow-lg shadow-yellow-300/30">
-                    <Plus size={28} className="text-[#272727]" strokeWidth={3} />
+                {/* Plus */}
+                <div className="flex-shrink-0">
+                  <div className="w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-[#fcff45] flex items-center justify-center shadow-md">
+                    <Plus className="text-[#272727] w-3 h-3 sm:w-5 sm:h-5" strokeWidth={3} />
                   </div>
                 </div>
 
-                {/* Right — Jean */}
-                <div className="flex-1 text-center">
-                  <div className="relative overflow-hidden rounded-3xl aspect-square mb-3 group bg-white">
+                {/* Jean */}
+                <div className="flex-1 text-center min-w-0">
+                  <div className="relative overflow-hidden rounded-xl sm:rounded-2xl aspect-square mb-1 sm:mb-2 group bg-white">
                     <img
                       src={pair.jean.image}
                       alt={pair.jean.name}
-                      className="w-full h-full object-cover p-2 rounded-3xl transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover p-1 sm:p-2 transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
-                  <p className="text-sm font-bold text-gray-700">{pair.jean.name}</p>
-                  <p className="text-xs text-gray-600">Jean</p>
+                  <p className="text-[10px] sm:text-sm font-bold text-gray-700 truncate">{pair.jean.name}</p>
+                  <p className="text-[9px] sm:text-xs text-gray-500">Jean</p>
                 </div>
               </div>
 
               {/* Price */}
-              <div className="flex items-center justify-center gap-4 mt-6 mb-4">
-                <span className="text-xl text-gray-500 line-through font-semibold">
-                  ${pair.oldPrice}
-                </span>
-                <span className="text-3xl font-black text-red-700">
-                  ${pair.newPrice}
-                </span>
+              <div className="flex items-center justify-center gap-2 sm:gap-4 my-2 sm:my-3">
+                <span className="text-sm sm:text-xl text-gray-500 line-through font-semibold">${pair.oldPrice}</span>
+                <span className="text-lg sm:text-3xl font-black text-red-700">${pair.newPrice}</span>
               </div>
 
-              {/* Add to Cart */}
+              {/* CTA */}
               <Button
                 onClick={() => {
                   const user = localStorage.getItem('user');
-                  if (user) {
-                    navigate(`/offer/${index}`);
-                  } else {
-                    navigate('/Login');
-                  }
+                  if (user) { navigate(`/offer/${index}`); }
+                  else { navigate('/Login'); }
                 }}
-                className="w-full gap-2 py-3 bg-red-700 text-white font-bold rounded-3xl hover:bg-red-800 shadow-lg shadow-red-900/20"
+                className="w-full gap-1 sm:gap-2 py-2 sm:py-3 bg-red-700 text-white font-bold rounded-xl sm:rounded-2xl hover:bg-red-800 shadow-lg text-[10px] sm:text-sm"
               >
-                <Plus size={18} />
+                <Plus size={13} />
                 Grab This Deal
               </Button>
             </div>

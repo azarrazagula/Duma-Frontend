@@ -5,7 +5,7 @@ import NavBar from "./NavBar/NavBar";
 import Cart from "./Cart/Cart";
 import AppRouter from "./Router/Router";
 import Footer from "./Footer/Footer";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import API_BASE_URL from "./config";
 
 function App() {
@@ -92,9 +92,15 @@ function App() {
   };
 
   const handleNavClick = (id) => {
+    if (id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY - 100;
+      const isMobile = window.innerWidth < 768;
+      const navbarHeight = isMobile ? 64 : 80;
+      const y = element.getBoundingClientRect().top + window.scrollY - navbarHeight;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
@@ -133,7 +139,20 @@ function App() {
   });
 
   const location = useLocation();
+  const navigate = useNavigate();
   const isAuthPage = location.pathname === "/Login";
+
+  useEffect(() => {
+    if (location.pathname === "/" && location.state?.scrollToId) {
+      const id = location.state.scrollToId;
+      navigate("/", { replace: true, state: {} });
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          handleNavClick(id);
+        }, 50);
+      });
+    }
+  }, [location.pathname, location.state]);
 
   return (
     <div className="min-h-screen bg-[#fafafa] selection:bg-blue-100">

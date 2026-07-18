@@ -12,11 +12,11 @@ const HomePage = () => {
   };
 
   return (
-    <div className="bg-[#0a0a0a] min-h-[90vh] flex items-center justify-center py-6 md:py-12 px-4 sm:px-6 lg:px-8 font-['Inter']">
+    <div id="home" className="bg-[#0a0a0a] h-[calc(100vh-70px)] md:h-[calc(100vh-86px)] flex flex-col justify-center px-4 sm:px-6 lg:px-8 font-['Inter'] overflow-hidden">
       <div className="max-w-7xl w-full">
         {/* Symmetrical Hero Banner */}
         <div className="relative bg-[#0d0d0d] border border-[#1a1a1a] rounded-3xl overflow-hidden min-h-[600px] lg:h-[620px] flex flex-col lg:flex-row items-center justify-between p-6 sm:p-10 lg:p-16 shadow-2xl gap-8 lg:gap-0">
-          
+
           {/* Subtle gold/ambient glow behind the banner */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,168,128,0.05)_0%,transparent_70%)] pointer-events-none"></div>
 
@@ -30,7 +30,7 @@ const HomePage = () => {
                 Elevate <br />
                 Your Style
               </h1>
-              <button 
+              <button
                 onClick={scrollToProducts}
                 className="border border-white/40 text-white font-serif text-[9px] sm:text-[10px] tracking-[0.2em] uppercase px-5 py-2.5 sm:px-6 sm:py-3 hover:bg-[#c5a880] hover:text-black hover:border-[#c5a880] transition-all duration-350 cursor-pointer active:scale-95"
               >

@@ -61,10 +61,17 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
   const handleLinkClick = (id) => {
     setIsOpen(false);
     if (location.pathname !== '/') {
-      navigate('/');
-      setTimeout(() => onNavClick(id), 100);
+      navigate('/', { state: { scrollToId: id } });
     } else {
       onNavClick(id);
+    }
+  };
+
+  const handleLogoClick = () => {
+    if (location.pathname === '/') {
+      onNavClick('home');
+    } else {
+      navigate('/');
     }
   };
 
@@ -78,11 +85,11 @@ const NavBar = ({ cartCount, onCartClick, activeSection, onNavClick }) => {
 
   return (
     <>
-      <div className="w-full px-4 py-4 sticky top-0 z-50">
-        <header className="bg-white/80 backdrop-blur-xl shadow-sm max-w-7xl mx-auto rounded-full h-16 md:h-20 w-full flex justify-between items-center px-6 md:px-10 border border-white/40">
+      <div className="w-full sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-gray-100 shadow-sm">
+        <header className="max-w-7xl mx-auto h-16 md:h-20 w-full flex justify-between items-center px-6 md:px-10">
 
           {/* Logo */}
-          <div onClick={() => navigate('/')} className="flex items-center cursor-pointer group">
+          <div onClick={handleLogoClick} className="flex items-center cursor-pointer group">
             <span className="text-2xl md:text-3xl font-black text-gray-900 tracking-tighter">
               DUMA<span className="text-blue-600">.</span>
             </span>
