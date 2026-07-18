@@ -34,7 +34,7 @@ const Offers = ({ tShirts, jeans }) => {
             LIMITED!
           </div>
         </div>
-        <p className="text-gray-300 text-[10px] sm:text-base mt-2 sm:mt-4 font-poppins tracking-wider text-center max-w-md px-2">
+        <p className="text-gray-100 text-xs sm:text-base lg:text-lg mt-3 sm:mt-5 font-poppins font-semibold tracking-wider text-center max-w-3xl px-4">
           Buy One T-Shirt, Get One Jean — Pay for the higher price only!
         </p>
       </div>
@@ -62,8 +62,8 @@ const Offers = ({ tShirts, jeans }) => {
                       className="w-full h-full object-cover p-1 sm:p-2 transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
-                  <p className="text-[10px] sm:text-sm font-bold text-gray-700 truncate">{pair.tshirt.name}</p>
-                  <p className="text-[9px] sm:text-xs text-gray-500">T-Shirt</p>
+                  <p className="text-[11px] sm:text-base font-extrabold text-gray-900 truncate mb-0.5">{pair.tshirt.name}</p>
+                  <p className="text-[9px] sm:text-xs font-semibold text-gray-500">T-Shirt</p>
                 </div>
 
                 {/* Plus */}
@@ -82,8 +82,8 @@ const Offers = ({ tShirts, jeans }) => {
                       className="w-full h-full object-cover p-1 sm:p-2 transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
-                  <p className="text-[10px] sm:text-sm font-bold text-gray-700 truncate">{pair.jean.name}</p>
-                  <p className="text-[9px] sm:text-xs text-gray-500">Jean</p>
+                  <p className="text-[11px] sm:text-base font-extrabold text-gray-900 truncate mb-0.5">{pair.jean.name}</p>
+                  <p className="text-[9px] sm:text-xs font-semibold text-gray-500">Jean</p>
                 </div>
               </div>
 

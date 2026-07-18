@@ -8,6 +8,9 @@ module.exports = {
       fontFamily: {
         oi: ['Oi', 'serif'],
         roboto: ['"Roboto Mono"', 'monospace'],
+        poppins: ['Poppins', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+        playfair: ['"Playfair Display"', 'serif'],
       },
     },
   },

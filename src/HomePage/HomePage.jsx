@@ -23,16 +23,16 @@ const HomePage = () => {
           {/* Left Column: Exclusive Collection & Shop CTA */}
           <div className="w-full lg:w-1/3 z-20 flex justify-center lg:justify-start order-2 lg:order-none">
             <div className="border border-[#c5a880] bg-[#0c0c0c]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 max-w-xs md:max-w-sm w-full transition-transform duration-500 hover:scale-[1.02]">
-              <span className="text-[10px] md:text-xs font-serif tracking-[0.25em] text-[#c5a880] uppercase block mb-3">
+              <span className="text-[10px] md:text-xs font-poppins font-bold tracking-[0.25em] text-[#c5a880] uppercase block mb-3">
                 Exclusive Collection:
               </span>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-light text-white leading-tight mb-6 md:mb-8">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-playfair font-medium text-white leading-tight mb-6 md:mb-8">
                 Elevate <br />
                 Your Style
               </h1>
               <button
                 onClick={scrollToProducts}
-                className="border border-white/40 text-white font-serif text-[9px] sm:text-[10px] tracking-[0.2em] uppercase px-5 py-2.5 sm:px-6 sm:py-3 hover:bg-[#c5a880] hover:text-black hover:border-[#c5a880] transition-all duration-350 cursor-pointer active:scale-95"
+                className="border border-white/40 text-white font-poppins font-black text-[9px] sm:text-[10px] tracking-[0.2em] uppercase px-5 py-2.5 sm:px-6 sm:py-3 hover:bg-[#c5a880] hover:text-black hover:border-[#c5a880] transition-all duration-350 cursor-pointer active:scale-95"
               >
                 Shop Collection
               </button>
@@ -57,16 +57,16 @@ const HomePage = () => {
           {/* Right Column: Duma Brand & Purchase Description */}
           <div className="w-full lg:w-1/3 z-20 flex justify-center lg:justify-end text-center lg:text-right order-3 lg:order-none">
             <div className="max-w-xs w-full py-2">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif tracking-[0.2em] text-white uppercase mb-3">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-playfair font-black tracking-[0.2em] text-white uppercase mb-3">
                 Duma
               </h2>
-              <span className="text-[10px] md:text-xs tracking-[0.3em] text-[#c5a880] uppercase block mb-4">
+              <span className="text-[10px] md:text-xs font-poppins font-bold tracking-[0.3em] text-[#c5a880] uppercase block mb-4">
                 / Premium Luxury /
               </span>
-              <p className="text-[11px] md:text-xs tracking-[0.2em] text-gray-400 uppercase leading-relaxed font-light mb-6">
+              <p className="text-[10px] md:text-xs font-poppins tracking-[0.15em] text-gray-300 uppercase leading-relaxed font-bold mb-6">
                 Shop our premium t-shirts, custom-fit jeans, and curated accessories designed for everyday elegance.
               </p>
-              <div className="text-[9px] md:text-[10px] tracking-[0.15em] text-[#c5a880] uppercase font-semibold">
+              <div className="text-[9px] md:text-[10px] font-poppins tracking-[0.15em] text-[#c5a880] uppercase font-black">
                 Free Shipping & Easy Returns
               </div>
             </div>
