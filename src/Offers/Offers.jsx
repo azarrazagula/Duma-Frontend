@@ -19,10 +19,10 @@ const Offers = ({ tShirts, jeans }) => {
   return (
     <section
       id="offers"
-      className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-2xl sm:rounded-3xl mx-3 sm:mx-4 my-3 sm:my-4
-        p-4 sm:p-8 lg:p-12 overflow-hidden shadow-2xl relative
-        h-[calc(100vh-70px)] md:h-[calc(100vh-86px)]
-        flex flex-col justify-between"
+      className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-2xl sm:rounded-3xl mx-2 sm:mx-4 my-2 sm:my-4
+        p-3 sm:p-8 lg:p-12 pb-8 sm:pb-8 lg:pb-12 overflow-hidden shadow-2xl relative
+        h-auto lg:h-[calc(100vh-100px)]
+        flex flex-col justify-between gap-6 lg:gap-0"
     >
       {/* 50% OFF Banner */}
       <div className="flex flex-col items-center">
@@ -39,8 +39,8 @@ const Offers = ({ tShirts, jeans }) => {
         </p>
       </div>
 
-      {/* BOGO Offer Cards — always 2 columns */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:gap-8 flex-1 my-3 sm:my-0">
+      {/* BOGO Offer Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 flex-1 my-3 sm:my-0">
         {bogoPairs.map((pair, index) => (
           <Cards key={index}>
             <div className="p-3 sm:p-5 h-full flex flex-col justify-between">

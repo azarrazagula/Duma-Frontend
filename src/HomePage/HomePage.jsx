@@ -13,7 +13,7 @@ const HomePage = () => {
 
   return (
     <div id="home" className="bg-[#0a0a0a] h-[calc(100vh-70px)] md:h-[calc(100vh-86px)] flex flex-col justify-center px-4 sm:px-6 lg:px-8 font-['Inter'] overflow-hidden">
-      <div className="max-w-7xl w-full">
+      <div className="max-w-7xl w-full mx-auto">
         {/* Symmetrical Hero Banner */}
         <div className="relative bg-[#0d0d0d] border border-[#1a1a1a] rounded-3xl overflow-hidden min-h-[600px] lg:h-[620px] flex flex-col lg:flex-row items-center justify-between p-6 sm:p-10 lg:p-16 shadow-2xl gap-8 lg:gap-0">
 

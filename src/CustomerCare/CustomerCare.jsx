@@ -47,10 +47,10 @@ const CustomerCare = () => {
   return (
     <section
       id="customercare"
-      className="bg-white rounded-2xl sm:rounded-3xl mx-3 sm:mx-4 my-3 sm:my-4 p-4 sm:p-8 lg:p-12
-        overflow-hidden shadow-2xl border border-gray-100
-        h-[calc(100vh-70px)] md:h-[calc(100vh-86px)]
-        flex flex-col justify-between"
+      className="bg-white rounded-2xl sm:rounded-3xl mx-2 sm:mx-4 my-2 sm:my-4 p-3 sm:p-8 lg:p-12
+        pb-8 sm:pb-8 lg:pb-12 overflow-hidden shadow-2xl border border-gray-100
+        h-auto lg:h-[calc(100vh-100px)]
+        flex flex-col justify-between gap-6 lg:gap-0"
     >
       {/* Header */}
       <div className="text-center">

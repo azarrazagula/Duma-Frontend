@@ -6,7 +6,7 @@ import Button from "../NavBar/Button";
 
 const ProductCard = ({ product, onClick }) => (
   <Cards>
-    <div className="p-3 sm:p-4 flex flex-col h-full group">
+    <div className="p-2 sm:p-4 flex flex-col h-full group">
       <div className="relative overflow-hidden rounded-xl sm:rounded-2xl aspect-square mb-2 sm:mb-3">
         <img
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
@@ -18,19 +18,19 @@ const ProductCard = ({ product, onClick }) => (
       <div className="flex-1 flex flex-col justify-between">
         <div>
           <div className="flex justify-between items-start mb-1">
-            <h3 className="text-sm sm:text-base font-bold text-gray-800 leading-tight line-clamp-1">{product.name}</h3>
-            <span className="text-sm sm:text-base font-black text-blue-600 ml-1 shrink-0">${product.price}</span>
+            <h3 className="text-xs sm:text-base font-bold text-gray-800 leading-tight line-clamp-1">{product.name}</h3>
+            <span className="text-xs sm:text-base font-black text-blue-600 ml-1 shrink-0">${product.price}</span>
           </div>
-          <p className="text-[10px] sm:text-xs text-gray-500 leading-snug line-clamp-2">{product.description}</p>
+          <p className="text-[9px] sm:text-xs text-gray-500 leading-snug line-clamp-2">{product.description}</p>
           {(product.size || product.stock !== undefined) && (
             <div className="flex flex-wrap gap-1 mt-1">
               {product.size && (
-                <span className="text-[9px] sm:text-xs font-bold px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full border border-gray-200">
+                <span className="text-[8px] sm:text-xs font-bold px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded-full border border-gray-200">
                   Size: {product.size}
                 </span>
               )}
               {product.stock !== undefined && (
-                <span className={`text-[9px] sm:text-xs font-bold px-2 py-0.5 rounded-full border ${product.stock > 0 ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                <span className={`text-[8px] sm:text-xs font-bold px-1.5 py-0.5 rounded-full border ${product.stock > 0 ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
                   {product.stock > 0 ? `${product.stock} left` : 'Out of stock'}
                 </span>
               )}
@@ -39,9 +39,9 @@ const ProductCard = ({ product, onClick }) => (
         </div>
         <Button
           onClick={onClick}
-          className="mt-2 sm:mt-3 w-full gap-1 sm:gap-2 py-2 sm:py-2.5 bg-gray-900 text-white font-bold rounded-lg sm:rounded-xl hover:bg-blue-600 shadow-lg flex items-center justify-center text-[10px] sm:text-sm"
+          className="mt-2 sm:mt-3 w-full gap-1 sm:gap-2 py-1.5 sm:py-2.5 bg-gray-900 text-white font-bold rounded-lg sm:rounded-xl hover:bg-blue-600 shadow-lg flex items-center justify-center text-[9px] sm:text-sm"
         >
-          <ArrowRight size={14} />
+          <ArrowRight size={12} className="sm:w-[14px]" />
           Buy Now
         </Button>
       </div>
@@ -51,14 +51,14 @@ const ProductCard = ({ product, onClick }) => (
 
 const ProductSection = ({ items, desktopHeightClass, emptyMessage, onBuy, children }) => (
   <section
-    className={`bg-[#272727] rounded-2xl sm:rounded-3xl mx-3 sm:mx-4 my-3 sm:my-4
-      p-4 sm:p-8 lg:p-12 overflow-hidden shadow-2xl
+    className={`bg-[#272727] rounded-2xl sm:rounded-3xl mx-2 sm:mx-4 my-2 sm:my-4
+      p-3 sm:p-8 lg:p-12 overflow-hidden shadow-2xl
       h-auto ${desktopHeightClass}
       flex flex-col justify-between gap-6 lg:gap-0`}
   >
     {children}
 
-    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-6 lg:gap-8">
       {items && items.length > 0 ? (
         items.slice(0, 4).map((item) => (
           <ProductCard
